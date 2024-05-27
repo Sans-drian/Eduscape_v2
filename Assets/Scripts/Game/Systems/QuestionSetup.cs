@@ -10,6 +10,7 @@ public class QuestionSetup : MonoBehaviour
     [SerializeField]
     private List<QuestionData> questions; //list that holds all questions
     private QuestionData currentQuestion; //keeps track of which question we're on
+    int QuestionIndex;
 
     [SerializeField]
     private TextMeshProUGUI questionText; 
@@ -17,6 +18,8 @@ public class QuestionSetup : MonoBehaviour
     private TextMeshProUGUI categoryText;
     [SerializeField]
     public AnswerButton[] answerButtons;
+
+    private Dictionary<int, List<bool>> buttonStates = new Dictionary<int, List<bool>>();
 
     [SerializeField]
     private ChestManager chestList;
@@ -34,12 +37,25 @@ public class QuestionSetup : MonoBehaviour
     void Start()
     {
         chestList = FindObjectOfType<ChestManager>();  
+        //InitializeButtonStates();
     }
 
     // Update is called once per frame
     void Update()
     {
         
+    }
+
+    void InitializeButtonStates()
+    {
+        for (int i = 0; i < questions.Count; i++)
+        {
+            buttonStates[i] = new List<bool>(answerButtons.Length);
+            for (int j = 0; j < answerButtons.Length; j++)
+            {
+                buttonStates[i].Add(false); // Initialize to false
+            }
+        }
     }
 
     public void runDisplayMethods() //run the function from Question Setup script, in this order.
@@ -62,7 +78,7 @@ public class QuestionSetup : MonoBehaviour
 
 
 
-        int QuestionIndex = chestList.clickedObjectIndex; //grab the question from the index id of the chest
+        QuestionIndex = chestList.clickedObjectIndex; //grab the question from the index id of the chest
 
         if (QuestionIndex >= 0 && QuestionIndex < questions.Count) //checking whether index exists or not
         {
@@ -105,6 +121,8 @@ public class QuestionSetup : MonoBehaviour
             
             answerButtons[i].SetIsCorrect(isCorrect);
             answerButtons[i].SetAnswerText(answers[i]);
+            //answerButtons[i].SetButtonState();
+            Debug.Log($"Value of {answers[i]}");
         }
     /*
         for (int i = 0; i < answerButtons.Length; i++) //this checks the index/gameobjects of the list of question
@@ -141,6 +159,9 @@ public class QuestionSetup : MonoBehaviour
         return newList;
     }
 
-
+    public void SetButtonState(int buttonIndex, bool state)
+    {
+        buttonStates[QuestionIndex][buttonIndex] = state;
+    }
     
 }

@@ -33,6 +33,11 @@ public class AnswerButton : MonoBehaviour
         isCorrect = newBool; //set new boolean
     }
 
+    public void SetButtonState(bool newBool)
+    {
+        isPressed = newBool;
+    }
+
     private void addCorrectClicked() //counts how many times the user clicked correct buttons
     {
         correctClickedCount += 1;
