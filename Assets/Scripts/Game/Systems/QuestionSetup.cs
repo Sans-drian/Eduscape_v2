@@ -16,15 +16,13 @@ public class QuestionSetup : MonoBehaviour
     [SerializeField]
     private TextMeshProUGUI categoryText;
     [SerializeField]
-    private AnswerButton[] answerButtons;
+    public AnswerButton[] answerButtons;
 
     [SerializeField]
     private ChestManager chestList;
 
     [SerializeField]
     private int correctAnswerChoice; //keeps track which is correct answer
-
-    private bool valueExists;
 
     private void Awake() 
     {
@@ -35,7 +33,7 @@ public class QuestionSetup : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        chestList = FindObjectOfType<ChestManager>();
+        chestList = FindObjectOfType<ChestManager>();  
     }
 
     // Update is called once per frame
@@ -108,6 +106,13 @@ public class QuestionSetup : MonoBehaviour
             answerButtons[i].SetIsCorrect(isCorrect);
             answerButtons[i].SetAnswerText(answers[i]);
         }
+    /*
+        for (int i = 0; i < answerButtons.Length; i++) //this checks the index/gameobjects of the list of question
+        {
+            obj = answerButtons[i];
+            Debug.Log($"Object at index {i}: {obj}");
+        }   
+    */
     }
 
     private List<string> RandomizeAnswers(List<string> originalList)
@@ -135,5 +140,7 @@ public class QuestionSetup : MonoBehaviour
         }
         return newList;
     }
+
+
     
 }

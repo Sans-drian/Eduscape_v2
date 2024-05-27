@@ -2702,7 +2702,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   pointText: {fileID: 1508792828}
-  currentPoints: 0
+  currentKeys: 0
   winCondition: 3
   escapeButton: {fileID: 666116156}
   escapeErrorText: {fileID: 135133910}

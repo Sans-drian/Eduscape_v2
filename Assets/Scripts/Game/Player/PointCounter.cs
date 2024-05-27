@@ -23,7 +23,7 @@ public class PointCounter : MonoBehaviour
 
     public TMP_Text pointText;
     public int currentKeys = 0;
-    public int winCondition = 100;
+    public int winCondition;
 
     public GameObject escapeButton;
     public GameObject escapeErrorText;

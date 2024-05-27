@@ -7,6 +7,7 @@ using System.Drawing;
 public class AnswerButton : MonoBehaviour
 {
     private bool isCorrect; //know if this button is the correct answer
+    private bool isPressed; //know if this button has been pressed or not
     [SerializeField]
     private TextMeshProUGUI answerText; //the answer text that will be changed
 
@@ -19,9 +20,6 @@ public class AnswerButton : MonoBehaviour
 
     private int wrongClickedCount;
     private int correctClickedCount;
-
-    
-    
 
     private int correctPointAmount = 1;
 
