@@ -23,7 +23,7 @@ public class AnswerButton : MonoBehaviour
     
     
 
-    private int correctPointAmount = 50;
+    private int correctPointAmount = 1;
 
     public void SetAnswerText(string newText) //get text from other script
     {
