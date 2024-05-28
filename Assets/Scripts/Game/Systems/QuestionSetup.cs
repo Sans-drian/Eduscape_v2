@@ -122,7 +122,7 @@ public class QuestionSetup : MonoBehaviour
             answerButtons[i].SetIsCorrect(isCorrect);
             answerButtons[i].SetAnswerText(answers[i]);
             //answerButtons[i].SetButtonState();
-            Debug.Log($"Value of {answers[i]}");
+            //Debug.Log($"Value of {i}");
         }
     /*
         for (int i = 0; i < answerButtons.Length; i++) //this checks the index/gameobjects of the list of question
@@ -141,7 +141,7 @@ public class QuestionSetup : MonoBehaviour
 
         for (int i = 0; i < answerButtons.Length; i++)
         {
-            //Get a random number of the remaining choises
+            //Get a random number of the remaining choices
             int random = Random.Range(0, originalList.Count);
 
             //If the random number is 0, this is the correct answer, MAKE SURE THIS IS ONLY USED ONCE
@@ -151,12 +151,17 @@ public class QuestionSetup : MonoBehaviour
                 correctAnswerChosen = true;
             }
 
+            //Debug.Log($"Random values of {random}");
             //Add this to the new list
             newList.Add(originalList[random]);
+            Debug.Log($"List{originalList[random]}");
             //Remove this choice from the original list (it has been used)
             originalList.RemoveAt(random);
+            //Debug.Log($"List{newList[i]}");
         }
+        
         return newList;
+        
     }
 
     public void SetButtonState(int buttonIndex, bool state)

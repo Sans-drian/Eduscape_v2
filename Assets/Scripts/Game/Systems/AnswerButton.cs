@@ -6,7 +6,9 @@ using System.Drawing;
 
 public class AnswerButton : MonoBehaviour
 {
+    [SerializeField]
     private bool isCorrect; //know if this button is the correct answer
+    [SerializeField]
     private bool isPressed; //know if this button has been pressed or not
     [SerializeField]
     private TextMeshProUGUI answerText; //the answer text that will be changed
