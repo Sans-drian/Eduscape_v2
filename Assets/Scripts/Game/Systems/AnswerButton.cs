@@ -11,6 +11,8 @@ public class AnswerButton : MonoBehaviour
     [SerializeField]
     private bool isPressed; //know if this button has been pressed or not
     [SerializeField]
+    private int buttonID; //id associated with the button
+    [SerializeField]
     private TextMeshProUGUI answerText; //the answer text that will be changed
 
     [SerializeField]
@@ -20,10 +22,17 @@ public class AnswerButton : MonoBehaviour
 
     public ChestManager chestManager;
 
+    public QuestionSetup questionSetup;
+
     private int wrongClickedCount;
     private int correctClickedCount;
 
     private int correctPointAmount = 1;
+
+    void Start()
+    {
+        //questionSetup = GetComponent<QuestionSetup>();
+    }
 
     public void SetAnswerText(string newText) //get text from other script
     {
@@ -40,22 +49,20 @@ public class AnswerButton : MonoBehaviour
         isPressed = newBool;
     }
 
-    private void addCorrectClicked() //counts how many times the user clicked correct buttons
+    public void SetButtonID(int newID)
     {
-        correctClickedCount += 1;
-    }
-
-    private void addWrongClicked() //counts how many times the user clicked wrong buttons
-    {
-        wrongClickedCount += 1;
+        buttonID = newID;
     }
 
     public void OnClick() //click function
     {
+        setButtonID();
+        questionSetup.updateArrayBool();
+        
         if (isCorrect) //if it is the correct answer
         {
             pointCounter.increasePoints(correctPointAmount);
-            addCorrectClicked();
+            //addCorrectClicked();
             chestManager.disableChest();
             Debug.Log("Correct Answer");
 
@@ -68,9 +75,10 @@ public class AnswerButton : MonoBehaviour
 
             if (!isPressed)
             {
-                addWrongClicked();
+                //addWrongClicked();
                 isPressed = true;
                 Debug.Log("Button has not been pressed. Adding 1 to buttons pressed");
+                
             }
             else
             {
@@ -89,6 +97,11 @@ public class AnswerButton : MonoBehaviour
     public int getCorrectClickedCount()
     {
         return correctClickedCount;
+    }
+
+    public void setButtonID()
+    {
+        questionSetup.buttonID = buttonID;
     }
 
 

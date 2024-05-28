@@ -12,8 +12,11 @@ public class QuestionSetup : MonoBehaviour
 {
     [SerializeField]
     private List<QuestionData> questions; //list that holds all questions
+    public int questionsCount; //variable to be used for CalculateAnsAcc script
+
     private QuestionData currentQuestion; //keeps track of which question we're on
-    int QuestionIndex;
+    public int QuestionIndex;
+    public int buttonID;
 
     [SerializeField]
     private TextMeshProUGUI questionText; 
@@ -37,8 +40,11 @@ public class QuestionSetup : MonoBehaviour
         //Get all questions ready
         GetQuestionAssets();
         InitializeButtonBoolArrays();
+        //Debug.Log($"original question list count from QuestionSetup script is {questions.Count}");
+        questionsCount = questions.Count;
+        //Debug.Log($"questionsCount int set from original question list from QuestionSetup script is {questionsCount}");
 
-        foreach (var kvp in buttonStates)
+        foreach (var kvp in buttonStates) //prints out all of the key value pairs of buttonStates
         {
             int arrayNameTest = kvp.Key;
             bool[] arrayTest = kvp.Value;
@@ -51,7 +57,7 @@ public class QuestionSetup : MonoBehaviour
     void Start()
     {
         chestList = FindObjectOfType<ChestManager>();  
-        //InitializeButtonStates();
+
     }
 
     // Update is called once per frame
@@ -115,7 +121,7 @@ public class QuestionSetup : MonoBehaviour
     }
 
     
-    private bool GetArrayIndex(int arrayIndex)
+    private bool GetArrayIndex(int arrayIndex) //grabs the bool index of the thrown in to the parameter array
     {
         bool arrayBool = false; 
 
@@ -134,9 +140,9 @@ public class QuestionSetup : MonoBehaviour
         return arrayBool;
     }
     
-    public void updateArrayBool(AnswerButton[] answerButtons)
+    public void updateArrayBool() //update the boolean of the boolean array according to the current question to true
     {
-        
+        retrievedArray[buttonID] = true;
     }
 
     public void GetQuestionAssets()
@@ -153,6 +159,7 @@ public class QuestionSetup : MonoBehaviour
 
 
         QuestionIndex = chestList.clickedObjectIndex; //grab the question from the index id of the chest
+        retrievedArray = GetBooleanArray(QuestionIndex); //setting the boolean array corresponding to the currently clicked question
 
         if (QuestionIndex >= 0 && QuestionIndex < questions.Count) //checking whether index exists or not
         {
@@ -180,7 +187,7 @@ public class QuestionSetup : MonoBehaviour
     {
         //Randomize the answer button order
         List<string> answers = RandomizeAnswers(new List<string>(currentQuestion.answers));
-        retrievedArray = GetBooleanArray(QuestionIndex);
+        
         
         //Set up the answer buttons
         for (int i = 0; i < answerButtons.Length; i++)
@@ -199,6 +206,7 @@ public class QuestionSetup : MonoBehaviour
             answerButtons[i].SetIsCorrect(isCorrect);
             answerButtons[i].SetAnswerText(answers[i]);
             answerButtons[i].SetButtonState(valueOfIndex);
+            answerButtons[i].SetButtonID(arrayIndex);
             //Debug.Log($"Value of {i}");
         }
 
