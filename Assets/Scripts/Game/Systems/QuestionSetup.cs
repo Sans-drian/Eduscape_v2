@@ -2,8 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using System.Linq;
 using UnityEditor.Il2Cpp;
 using System.Runtime.InteropServices.WindowsRuntime;
+using UnityEngine.InputSystem;
+using System.Threading;
 
 public class QuestionSetup : MonoBehaviour
 {
@@ -19,7 +22,9 @@ public class QuestionSetup : MonoBehaviour
     [SerializeField]
     public AnswerButton[] answerButtons;
 
-    private Dictionary<int, List<bool>> buttonStates = new Dictionary<int, List<bool>>();
+    private Dictionary<int, bool[]> buttonStates = new Dictionary<int, bool[]>(); //dictionary to hold button states array
+    List<int> randList = new List<int>();
+    bool[] retrievedArray;
 
     [SerializeField]
     private ChestManager chestList;
@@ -31,6 +36,15 @@ public class QuestionSetup : MonoBehaviour
     {
         //Get all questions ready
         GetQuestionAssets();
+        InitializeButtonBoolArrays();
+
+        foreach (var kvp in buttonStates)
+        {
+            int arrayNameTest = kvp.Key;
+            bool[] arrayTest = kvp.Value;
+
+            //Debug.Log($"Array '{arrayNameTest}': {string.Join(", ", arrayTest)}");
+        }
     }
 
     // Start is called before the first frame update
@@ -46,23 +60,83 @@ public class QuestionSetup : MonoBehaviour
         
     }
 
-    void InitializeButtonStates()
-    {
-        for (int i = 0; i < questions.Count; i++)
-        {
-            buttonStates[i] = new List<bool>(answerButtons.Length);
-            for (int j = 0; j < answerButtons.Length; j++)
-            {
-                buttonStates[i].Add(false); // Initialize to false
-            }
-        }
-    }
 
     public void runDisplayMethods() //run the function from Question Setup script, in this order.
     {
         SelectNewQuestion(); //Get a new question
         SetQuestionValues(); //Set all text and values on screen
         SetAnswerValues(); //Set all of the answer buttons and correct answer values
+    }
+
+    public void InitializeButtonBoolArrays() //create boolean arrays to hold button states
+    {
+        for (int i = 0; i < questions.Count; i++)
+        {
+            int arrayName = i;
+            bool[] newArray = new bool[4]; // Change the size as needed
+
+            // Set all values to false
+            for (int j = 0; j < newArray.Length; j++)
+            {
+                newArray[j] = false;
+            }
+
+            // Add the array to the dictionary
+            AddBooleanArray(arrayName, newArray);
+            
+        }
+    }
+
+    private void AddBooleanArray(int arrayName, bool[] array)
+    {
+        if (!buttonStates.ContainsKey(arrayName))
+        {
+            buttonStates.Add(arrayName, array);
+        }
+        else
+        {
+            Debug.LogWarning($"Array '{arrayName}' already exists in the dictionary.");
+        }
+
+    }
+
+    private bool[] GetBooleanArray(int arrayValue)
+    {
+        if (buttonStates.TryGetValue(arrayValue, out bool[] array))
+        {
+            Debug.Log($"Array {arrayValue} found in dictionary");
+            return array;
+        }
+        else
+        {
+            Debug.LogError($"Array '{arrayValue}' not found in the dictionary.");
+            return null;
+        }
+    }
+
+    
+    private bool GetArrayIndex(int arrayIndex)
+    {
+        bool arrayBool = false; 
+
+        if (arrayIndex >= 0 && arrayIndex < retrievedArray.Length) //checks if arrayIndex is within range of retrievedArray length
+        {
+            bool valueAtIndex = retrievedArray[arrayIndex];
+            arrayBool = valueAtIndex;
+            Debug.Log($"Array[{arrayIndex}] value: {valueAtIndex}");
+        }
+        else
+        {
+            Debug.LogError($"Invalid index: {arrayIndex}. Array size is {retrievedArray.Length}.");
+        }
+
+        Debug.Log($"{arrayBool}");
+        return arrayBool;
+    }
+    
+    public void updateArrayBool(AnswerButton[] answerButtons)
+    {
+        
     }
 
     public void GetQuestionAssets()
@@ -106,10 +180,13 @@ public class QuestionSetup : MonoBehaviour
     {
         //Randomize the answer button order
         List<string> answers = RandomizeAnswers(new List<string>(currentQuestion.answers));
-
+        retrievedArray = GetBooleanArray(QuestionIndex);
+        
         //Set up the answer buttons
         for (int i = 0; i < answerButtons.Length; i++)
         {
+            int arrayIndex = randList[i];
+            bool valueOfIndex = GetArrayIndex(arrayIndex);
             //Create a temporary boolean to pass the buttons
             bool isCorrect = false;
 
@@ -121,9 +198,11 @@ public class QuestionSetup : MonoBehaviour
             
             answerButtons[i].SetIsCorrect(isCorrect);
             answerButtons[i].SetAnswerText(answers[i]);
-            //answerButtons[i].SetButtonState();
+            answerButtons[i].SetButtonState(valueOfIndex);
             //Debug.Log($"Value of {i}");
         }
+
+        
     /*
         for (int i = 0; i < answerButtons.Length; i++) //this checks the index/gameobjects of the list of question
         {
@@ -135,33 +214,52 @@ public class QuestionSetup : MonoBehaviour
 
     private List<string> RandomizeAnswers(List<string> originalList)
     {
-        bool correctAnswerChosen = false;
-
+        randList.Clear();
         List<string> newList = new List<string>();
+
+        //THE WHOLE SETUP IS TO ENSURE UNIQUE RANDOM NUMBERS
+        List<int> unshuffled = new List<int>() {0,1,2,3};
+
+        for (int i = 0; i < answerButtons.Length; i++) 
+        {
+            int random = Random.Range(0, unshuffled.Count);
+            randList.Add(unshuffled[random]);
+            unshuffled.RemoveAt(random);
+        }
+
+        /*
+        foreach( var x in originalList) 
+        {
+            Debug.Log($"FOR EACH LOOP PRINTING: {x}" );
+        }
+        */
 
         for (int i = 0; i < answerButtons.Length; i++)
         {
-            //Get a random number of the remaining choices
-            int random = Random.Range(0, originalList.Count);
+
+            int random;
 
             //If the random number is 0, this is the correct answer, MAKE SURE THIS IS ONLY USED ONCE
-            if (random == 0 && !correctAnswerChosen)
+            if (randList[i] == 0)
             {
                 correctAnswerChoice = i;
-                correctAnswerChosen = true;
+                random = randList[i];
+                //Debug.Log($"if route: {randList[i]}");
+            } 
+            else 
+            {
+                random = randList[i];
+                //Debug.Log($"else route: {randList[i]}");
             }
 
-            //Debug.Log($"Random values of {random}");
             //Add this to the new list
             newList.Add(originalList[random]);
-            Debug.Log($"List{originalList[random]}");
+
             //Remove this choice from the original list (it has been used)
-            originalList.RemoveAt(random);
-            //Debug.Log($"List{newList[i]}");
+            //originalList.RemoveAt(random);
         }
         
         return newList;
-        
     }
 
     public void SetButtonState(int buttonIndex, bool state)

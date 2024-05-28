@@ -58,12 +58,24 @@ public class AnswerButton : MonoBehaviour
             addCorrectClicked();
             chestManager.disableChest();
             Debug.Log("Correct Answer");
+
+            Debug.Log($"Correct answers clicked: {correctClickedCount}"); //debugging purposes
         }
         else //if it is the wrong answer
         {
             timer.decreaseTime();
-            addWrongClicked();
             Debug.Log("Wrong Answer");
+
+            if (!isPressed)
+            {
+                addWrongClicked();
+                isPressed = true;
+                Debug.Log("Button has not been pressed. Adding 1 to buttons pressed");
+            }
+            else
+            {
+                Debug.Log("Button has been pressed. Will not add 1 to buttons pressed");
+            }
 
             Debug.Log($"Wrong answers clicked: {wrongClickedCount}"); //debugging purposes
         }

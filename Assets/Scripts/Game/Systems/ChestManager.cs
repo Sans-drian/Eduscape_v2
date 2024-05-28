@@ -21,12 +21,13 @@ public class ChestManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+        /*
         for (int i = 0; i < chests.Count; i++) //this checks the index/gameobjects of the list of question
         {
             GameObject obj = chests[i];
             Debug.Log($"Object at index {i}: {obj.name}");
-        }     
+        }    
+        */ 
     }
 
     // Update is called once per frame
