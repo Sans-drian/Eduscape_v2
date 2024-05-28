@@ -2681,8 +2681,8 @@ GameObject:
   - component: {fileID: 995523103}
   - component: {fileID: 995523105}
   - component: {fileID: 995523106}
-  - component: {fileID: 995523108}
   - component: {fileID: 995523107}
+  - component: {fileID: 995523108}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -2781,6 +2781,7 @@ MonoBehaviour:
   questionsCount: 0
   QuestionIndex: 0
   buttonID: 0
+  calculateAnsAcc: {fileID: 995523108}
   questionText: {fileID: 333533465}
   categoryText: {fileID: 1216710678}
   answerButtons:
@@ -2802,9 +2803,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25ca0797330f1ba4ebad73ab49dece3d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  correctClickedCount: 0
-  incorrectClickedCount: 0
   questionSetup: {fileID: 995523107}
+  chestManager: {fileID: 995523105}
 --- !u!1 &999428177
 GameObject:
   m_ObjectHideFlags: 0
@@ -3487,6 +3487,10 @@ PrefabInstance:
       propertyPath: questionSetup
       value: 
       objectReference: {fileID: 995523107}
+    - target: {fileID: 4258414223776357796, guid: f66c2b3e56a89b949b7e6e4ca60929c9, type: 3}
+      propertyPath: calculateAnsAcc
+      value: 
+      objectReference: {fileID: 995523108}
     - target: {fileID: 4363919961545705811, guid: f66c2b3e56a89b949b7e6e4ca60929c9, type: 3}
       propertyPath: m_text
       value: 'C:'
@@ -4406,6 +4410,10 @@ PrefabInstance:
       propertyPath: questionSetup
       value: 
       objectReference: {fileID: 995523107}
+    - target: {fileID: 4258414223776357796, guid: f66c2b3e56a89b949b7e6e4ca60929c9, type: 3}
+      propertyPath: calculateAnsAcc
+      value: 
+      objectReference: {fileID: 995523108}
     - target: {fileID: 4363919961545705811, guid: f66c2b3e56a89b949b7e6e4ca60929c9, type: 3}
       propertyPath: m_text
       value: 'B:'
@@ -4534,6 +4542,10 @@ PrefabInstance:
       propertyPath: questionSetup
       value: 
       objectReference: {fileID: 995523107}
+    - target: {fileID: 4258414223776357796, guid: f66c2b3e56a89b949b7e6e4ca60929c9, type: 3}
+      propertyPath: calculateAnsAcc
+      value: 
+      objectReference: {fileID: 995523108}
     - target: {fileID: 4363919961545705811, guid: f66c2b3e56a89b949b7e6e4ca60929c9, type: 3}
       propertyPath: m_text
       value: 'D:'
@@ -5887,6 +5899,10 @@ PrefabInstance:
       propertyPath: questionSetup
       value: 
       objectReference: {fileID: 995523107}
+    - target: {fileID: 4258414223776357796, guid: f66c2b3e56a89b949b7e6e4ca60929c9, type: 3}
+      propertyPath: calculateAnsAcc
+      value: 
+      objectReference: {fileID: 995523108}
     - target: {fileID: 5250550232070940949, guid: f66c2b3e56a89b949b7e6e4ca60929c9, type: 3}
       propertyPath: m_Name
       value: AnswerBoxA

@@ -21,17 +21,28 @@ public class AnswerButton : MonoBehaviour
     private Timer timer;
 
     public ChestManager chestManager;
-
     public QuestionSetup questionSetup;
-
-    private int wrongClickedCount;
-    private int correctClickedCount;
+    public CalculateAnsAcc calculateAnsAcc;
 
     private int correctPointAmount = 1;
 
+    void Awake()
+    {
+        
+    }
+
     void Start()
     {
-        //questionSetup = GetComponent<QuestionSetup>();
+        //questionSetup = FindObjectOfType<QuestionSetup>();
+
+        if (questionSetup != null)
+        {
+            Debug.Log("questionSetup is not null");
+        }
+        else
+        {
+            Debug.LogError("questionSetup is null");
+        }
     }
 
     public void SetAnswerText(string newText) //get text from other script
@@ -54,19 +65,33 @@ public class AnswerButton : MonoBehaviour
         buttonID = newID;
     }
 
+    public void setButtonID()
+    {
+        Debug.Log("setButtonID() called");
+        questionSetup.buttonID = buttonID;
+    }
+
     public void OnClick() //click function
     {
         setButtonID();
-        questionSetup.updateArrayBool();
+        calculateAnsAcc.setCurrentIntArr();
+        questionSetup.updateBoolAddCount();
+
         
         if (isCorrect) //if it is the correct answer
         {
             pointCounter.increasePoints(correctPointAmount);
-            //addCorrectClicked();
+            calculateAnsAcc.storeIndvAns();
             chestManager.disableChest();
             Debug.Log("Correct Answer");
 
-            Debug.Log($"Correct answers clicked: {correctClickedCount}"); //debugging purposes
+            foreach (var kvp in calculateAnsAcc.qClickedCount)
+            {
+                int arrayNameTest = kvp.Key;
+                int[] arrayTest = kvp.Value;
+
+                Debug.Log($"Array '{arrayNameTest}': {string.Join(", ", arrayTest)}");
+            }
         }
         else //if it is the wrong answer
         {
@@ -75,34 +100,26 @@ public class AnswerButton : MonoBehaviour
 
             if (!isPressed)
             {
-                //addWrongClicked();
                 isPressed = true;
-                Debug.Log("Button has not been pressed. Adding 1 to buttons pressed");
+                Debug.Log("Setting to button isPressed to true");
                 
             }
             else
             {
-                Debug.Log("Button has been pressed. Will not add 1 to buttons pressed");
+                Debug.Log("Button isPressed is already true");
             }
+        }
 
-            Debug.Log($"Wrong answers clicked: {wrongClickedCount}"); //debugging purposes
+
+        if (pointCounter.currentKeys == pointCounter.winCondition)
+        {
+            Debug.Log("Whoo nelly! Got all the questions correct!");
+
+        }
+        else
+        {
+            Debug.Log("Key count not at winCondition yet.");
         }
     }
-
-    public int getWrongClickedCount()
-    {
-        return wrongClickedCount;
-    }
-
-    public int getCorrectClickedCount()
-    {
-        return correctClickedCount;
-    }
-
-    public void setButtonID()
-    {
-        questionSetup.buttonID = buttonID;
-    }
-
 
 }

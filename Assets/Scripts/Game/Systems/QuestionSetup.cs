@@ -18,6 +18,8 @@ public class QuestionSetup : MonoBehaviour
     public int QuestionIndex;
     public int buttonID;
 
+    public CalculateAnsAcc calculateAnsAcc;
+
     [SerializeField]
     private TextMeshProUGUI questionText; 
     [SerializeField]
@@ -37,6 +39,20 @@ public class QuestionSetup : MonoBehaviour
 
     private void Awake() 
     {
+        chestList = FindObjectOfType<ChestManager>(); 
+
+        //calculateAnsAcc = FindObjectOfType<CalculateAnsAcc>();
+        
+        if (calculateAnsAcc != null)
+        {
+            Debug.Log("calculateAnsAcc is not null");
+        }
+        else
+        {
+            Debug.LogError("calculateAnsAcc is null");
+        }
+
+
         //Get all questions ready
         GetQuestionAssets();
         InitializeButtonBoolArrays();
@@ -56,7 +72,8 @@ public class QuestionSetup : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        chestList = FindObjectOfType<ChestManager>();  
+
+          
 
     }
 
@@ -140,10 +157,22 @@ public class QuestionSetup : MonoBehaviour
         return arrayBool;
     }
     
-    public void updateArrayBool() //update the boolean of the boolean array according to the current question to true
+    public void updateBoolAddCount() //update the boolean of the boolean array according to the current question to true
     {
-        retrievedArray[buttonID] = true;
+        
+        if (!retrievedArray[buttonID]) //if the button boolean is not false
+        {
+            calculateAnsAcc.addCount();
+            retrievedArray[buttonID] = true;
+            Debug.Log("Adding count and setting bool of button to true.");
+        }
+        else 
+        {
+            Debug.LogWarning("Bool of button is already true, will not be adding count.");
+        }
+        
     }
+
 
     public void GetQuestionAssets()
     {
@@ -268,11 +297,6 @@ public class QuestionSetup : MonoBehaviour
         }
         
         return newList;
-    }
-
-    public void SetButtonState(int buttonIndex, bool state)
-    {
-        buttonStates[QuestionIndex][buttonIndex] = state;
     }
     
 }

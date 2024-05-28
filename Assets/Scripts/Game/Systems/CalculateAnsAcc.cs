@@ -1,18 +1,16 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Mathematics;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class CalculateAnsAcc : MonoBehaviour
 {
-    [SerializeField]
-    int correctClickedCount = 0;
-    [SerializeField]
-    int incorrectClickedCount = 0;
-    
-
     public QuestionSetup questionSetup;
+    public ChestManager chestManager;
     
-    private Dictionary<int, int[]> qClickedCount = new Dictionary<int, int[]>();
+    public Dictionary<int, int[]> qClickedCount = new Dictionary<int, int[]>(); //question clicked count dictionary
+    public Dictionary<int, float[]> indvAnsAcc = new Dictionary<int, float[]>(); //individual answer accuracy dictionary
 
     int[] currentQuestion;
 
@@ -24,17 +22,31 @@ public class CalculateAnsAcc : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        InitializeButtonBoolArrays();
+        InitializeQIntArrays();
         Debug.Log($"Dictionary count: {qClickedCount.Count}");
         Debug.Log($"questionCount from questionSetup script is {questionSetup.questionsCount}");
+        
+        /*
 
-        foreach (var kvp in qClickedCount)
+        For each loop for the purposes of debugging
+        (Display all of the key value pairs in the dicitonaries)
+
+        foreach (var kvp in qClickedCount) 
         {
             int arrayNameTest = kvp.Key;
             int[] arrayTest = kvp.Value;
 
-            Debug.Log($"Array '{arrayNameTest}': {string.Join(", ", arrayTest)}");
+            Debug.Log($"Array qClickedCount '{arrayNameTest}': {string.Join(", ", arrayTest)}");
         }
+
+        foreach (var kvp in indvAnsAcc)
+        {
+            int arrayNameTest = kvp.Key;
+            int[] arrayTest = kvp.Value;
+
+            Debug.Log($"Array indvAnsAcc '{arrayNameTest}': {string.Join(", ", arrayTest)}");
+        }
+        */
 
         //Debug.Log($"The count of questions is {questionSetup.questionsCount}"); //debugging purposes
     }
@@ -45,42 +57,41 @@ public class CalculateAnsAcc : MonoBehaviour
         
     }
 
+
     public void setCurrentIntArr()
     {
-       currentQuestion = GetBooleanArray(questionSetup.QuestionIndex);
+       currentQuestion = GetIndvIntArray(questionSetup.QuestionIndex, qClickedCount);
     }
 
-    public void addCorrectClicked()
+    public void addCount()
     {
-        correctClickedCount += 1;
-    }
-
-    public void addWrongClicked()
-    {
-        incorrectClickedCount += 1;
+        currentQuestion[0] += 1;
     }
     
-    public void InitializeButtonBoolArrays() //create int arrays to hold button states
+    public void InitializeQIntArrays() //create int arrays to hold button states and individual answer accuracies
     {
         for (int i = 0; i < questionSetup.questionsCount; i++)
         {
             int arrayName = i;
-            int[] newArray = new int[1]; // Change the size as needed
+            int[] newArrayI = new int[1]; // Change the size as needed
+            float[] newArrayF = new float[1]; 
 
             // Set all values to false
-            for (int j = 0; j < newArray.Length; j++)
+            for (int j = 0; j < newArrayI.Length; j++)
             {
-                newArray[j] = 0;
+                newArrayI[j] = 0;
+                newArrayF[j] = 0;
             }
 
             // Add the array to the dictionary
-            AddIntArray(arrayName, newArray);
+            AddToQClicked(arrayName, newArrayI);
+            AddToAnsQuest(arrayName, newArrayF);
             //Debug.Log($"dict set {i}");
             
         }
     }
 
-    private void AddIntArray(int arrayName, int[] array) //method to add the array into the dictionary
+    private void AddToQClicked(int arrayName, int[] array) //method to add the array into the question clicked count dictionary
     {
         if (!qClickedCount.ContainsKey(arrayName))
         {
@@ -92,10 +103,36 @@ public class CalculateAnsAcc : MonoBehaviour
         }
 
     }
-
-    private int[] GetBooleanArray(int arrayValue)
+    private void AddToAnsQuest(int arrayName, float[] array) //method to add the array into the individual answer accuracy dictionary
     {
-        if (qClickedCount.TryGetValue(arrayValue, out int[] array))
+        if (!indvAnsAcc.ContainsKey(arrayName))
+        {
+            indvAnsAcc.Add(arrayName, array);
+        }
+        else
+        {
+            Debug.LogWarning($"Array '{arrayName}' already exists in the dictionary.");
+        }
+
+    }
+
+    private int[] GetIndvIntArray(int arrayValue, Dictionary<int, int[]> dictionary)
+    {
+        if (dictionary.TryGetValue(arrayValue, out int[] array))
+        {
+            Debug.Log($"Array {arrayValue} found in dictionary");
+            return array;
+        }
+        else
+        {
+            Debug.LogError($"Array '{arrayValue}' not found in the dictionary.");
+            return null;
+        }
+    }
+
+    private float[] GetIndvFloatArray(int arrayValue, Dictionary<int, float[]> dictionary)
+    {
+        if (dictionary.TryGetValue(arrayValue, out float[] array))
         {
             Debug.Log($"Array {arrayValue} found in dictionary");
             return array;
@@ -107,4 +144,69 @@ public class CalculateAnsAcc : MonoBehaviour
         }
     }
     
+    
+    public void storeIndvAns() //method to store the calculated answer accuracy of a question into indvAnsAcc dictionary
+    {
+        float calculatedNum = calcIndvAnsAc(questionSetup.QuestionIndex);  //calculate question answer accuracy based on the current question index
+        float[] currentArray = GetIndvFloatArray(questionSetup.QuestionIndex, indvAnsAcc);
+
+        currentArray[0] = calculatedNum;
+
+        foreach (var kvp in indvAnsAcc)
+        {
+            int arrayNameTest = kvp.Key;
+            float[] arrayTest = kvp.Value;
+
+            Debug.Log($"Array '{arrayNameTest}': {string.Join(", ", arrayTest)}");
+        }
+    }
+
+    private float calcIndvAnsAc(int array) //method that calculates the answer accuracy of a question
+    {
+        float totalClicked = 0;
+
+        int[] currentArray = GetIndvIntArray(array, qClickedCount); //find array matching from qClickedCount to the current question (or int of the current question)
+        Debug.Log($"This question array has {currentArray[0]} clicks");
+        totalClicked = currentArray[0];
+
+        float calcIndvAns = 1 / totalClicked;
+        
+        Debug.Log($"calculated answer accuracy for question index {array}: {calcIndvAns}");
+        return calcIndvAns;
+    }
+
+
+    public int calcTotalAnsAcc()
+    {
+        int calcTotalAns = 0;
+        
+        /*
+        GameObject interactingChest = chestManager.chests[chestManager.clickedObjectIndex]; // Get the specific GameObject
+        var chest = interactingChest.GetComponent<Chest>(); // place the component into the variable chest
+
+        if (!chest.isAnswered)
+        {
+            Debug.Log("Chest has yet to be answered to calculate answer accuracy of question");
+        }
+        else
+        {
+            int totalClicked = currentQuestion[0];
+            calcIndvAnsAc(totalClicked);
+            Debug.Log("Answer accuracy of current question has been calculated!");
+        }
+
+        foreach (var kvp in qClickedCount) 
+        {      
+            int[] arrayClickedCount = kvp.Value;
+            int arrayIndex = arrayClickedCount[0];
+
+            calcIndvAnsAc(kvp.Value, arrayIndex);
+
+        }
+        */
+
+        return calcTotalAns;
+    }
+
+
 }

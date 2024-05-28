@@ -6,6 +6,7 @@ public class ChestManager : MonoBehaviour
 {
     public List<GameObject> chests = new List<GameObject>(); // List to hold chest game objects
     public int clickedObjectIndex;
+  
 
     
     public QuestionSetup questionSetup;
