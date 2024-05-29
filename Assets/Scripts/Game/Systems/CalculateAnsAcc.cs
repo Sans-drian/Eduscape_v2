@@ -60,7 +60,7 @@ public class CalculateAnsAcc : MonoBehaviour
 
     public void setCurrentIntArr()
     {
-       currentQuestion = GetIndvIntArray(questionSetup.QuestionIndex, qClickedCount);
+       currentQuestion = GetIndvArray(questionSetup.QuestionIndex, qClickedCount);
     }
 
     public void addCount()
@@ -116,23 +116,9 @@ public class CalculateAnsAcc : MonoBehaviour
 
     }
 
-    private int[] GetIndvIntArray(int arrayValue, Dictionary<int, int[]> dictionary)
+    private T[] GetIndvArray<T>(int arrayValue, Dictionary<int, T[]> dictionary)
     {
-        if (dictionary.TryGetValue(arrayValue, out int[] array))
-        {
-            Debug.Log($"Array {arrayValue} found in dictionary");
-            return array;
-        }
-        else
-        {
-            Debug.LogError($"Array '{arrayValue}' not found in the dictionary.");
-            return null;
-        }
-    }
-
-    private float[] GetIndvFloatArray(int arrayValue, Dictionary<int, float[]> dictionary)
-    {
-        if (dictionary.TryGetValue(arrayValue, out float[] array))
+        if (dictionary.TryGetValue(arrayValue, out T[] array))
         {
             Debug.Log($"Array {arrayValue} found in dictionary");
             return array;
@@ -148,7 +134,7 @@ public class CalculateAnsAcc : MonoBehaviour
     public void storeIndvAns() //method to store the calculated answer accuracy of a question into indvAnsAcc dictionary
     {
         float calculatedNum = calcIndvAnsAc(questionSetup.QuestionIndex);  //calculate question answer accuracy based on the current question index
-        float[] currentArray = GetIndvFloatArray(questionSetup.QuestionIndex, indvAnsAcc);
+        float[] currentArray = GetIndvArray(questionSetup.QuestionIndex, indvAnsAcc);
 
         currentArray[0] = calculatedNum;
 
@@ -165,14 +151,20 @@ public class CalculateAnsAcc : MonoBehaviour
     {
         float totalClicked = 0;
 
-        int[] currentArray = GetIndvIntArray(array, qClickedCount); //find array matching from qClickedCount to the current question (or int of the current question)
+        int[] currentArray = GetIndvArray(array, qClickedCount); //find array matching from qClickedCount to the current question (or int of the current question)
         Debug.Log($"This question array has {currentArray[0]} clicks");
         totalClicked = currentArray[0];
 
         float calcIndvAns = 1 / totalClicked;
+
+        /*
+        Convert 25% to 0% WITHOUT using an if-conditional
+        */
+        float cutoff = 1-(int) (calcIndvAns+0.7f); // if 25% return 1, else return 0
+        float newAccu = calcIndvAns - (0.25f*cutoff);
         
-        Debug.Log($"calculated answer accuracy for question index {array}: {calcIndvAns}");
-        return calcIndvAns;
+        Debug.Log($"calculated answer accuracy for question {array + 1}: {newAccu} (before, it was {calcIndvAns})");
+        return newAccu;
     }
 
 
