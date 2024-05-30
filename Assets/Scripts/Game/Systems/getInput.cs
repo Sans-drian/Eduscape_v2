@@ -7,9 +7,10 @@ using UnityEngine.UI;
 public class getInput : MonoBehaviour
 {
     [SerializeField]
-    InputField inputField;
-    [SerializeField]
-    TextMeshProUGUI resultText;
+    TMP_InputField inputField;
+    //[SerializeField]
+    //TextMeshProUGUI resultText;
+    
     public readDatabaseQList readDatabaseQList;
     // Start is called before the first frame update
     void Start()

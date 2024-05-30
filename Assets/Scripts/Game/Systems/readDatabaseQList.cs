@@ -52,9 +52,11 @@ public class readDatabaseQList : MonoBehaviour
 
                         databaseRows.Add(rowData);
                     }
+                    
                 }
+                SceneManager.LoadScene("Game");
             }
-            SceneManager.LoadScene("Game");
+            
         }
         catch (MySqlException e)
         {
