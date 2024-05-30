@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1ab17ea457d987d48956d95dc2b98b04, type: 3}
   m_Name: Question4
   m_EditorClassIdentifier: 
+  questionNum: 
   question: A server administrator needs to deploy five VMs. all of which must have
     the same type of configuration. Which of the following would be the MOST efficient
     way to perform this task?

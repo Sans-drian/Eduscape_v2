@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1ab17ea457d987d48956d95dc2b98b04, type: 3}
   m_Name: Question9
   m_EditorClassIdentifier: 
+  questionNum: 
   question: A server administrator needs to create a new folder on a file server
     that only specific users can access. Which of the following BEST describes how
     the server administrator can accomplish this task?

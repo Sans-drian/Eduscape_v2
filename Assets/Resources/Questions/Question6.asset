@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1ab17ea457d987d48956d95dc2b98b04, type: 3}
   m_Name: Question6
   m_EditorClassIdentifier: 
+  questionNum: 
   question: 'A server administrator is configuring the IP address on a newly provisioned
     server in the testing environment. The network VLANs are configured as follows:
     The administrator configures the IP address for the new server as follows: IP

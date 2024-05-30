@@ -12,11 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1ab17ea457d987d48956d95dc2b98b04, type: 3}
   m_Name: Question8
   m_EditorClassIdentifier: 
-  question: '"Users at a company work with highly sensitive data. The security department
+  questionNum: 
+  question: Users at a company work with highly sensitive data. The security department
     implemented an administrative and technical control to enforce least-privilege
     access assigned to files. However, the security department has discovered unauthorized
     data exfiltration. Which of the following is the BEST way to protect the data
-    from leaking?"'
+    from leaking?
   category: Comp. Sci.
   answers:
   - Install a DLP solution.

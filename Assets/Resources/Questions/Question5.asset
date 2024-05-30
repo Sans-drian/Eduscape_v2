@@ -12,11 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1ab17ea457d987d48956d95dc2b98b04, type: 3}
   m_Name: Question5
   m_EditorClassIdentifier: 
-  question: '"A global organization keeps personnel application servers that are
-    local to each country. However, a security audit shows these application servers
-    are accessible from sites in other countries. Which of the following hardening
-    techniques should the organization use to restrict access to only sites that
-    are in the same country?"'
+  questionNum: 
+  question: A global organization keeps personnel application servers that are local
+    to each country. However, a security audit shows these application servers are
+    accessible from sites in other countries. Which of the following hardening techniques
+    should the organization use to restrict access to only sites that are in the
+    same country?
   category: Comp. Sci.
   answers:
   - Configure a firewall

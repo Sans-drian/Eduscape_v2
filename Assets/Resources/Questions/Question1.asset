@@ -12,10 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1ab17ea457d987d48956d95dc2b98b04, type: 3}
   m_Name: Question1
   m_EditorClassIdentifier: 
-  question: '"A company is reviewing options for its current disaster recovery plan
+  questionNum: 
+  question: A company is reviewing options for its current disaster recovery plan
     and potential changes to it. The security team will not allow customer data to
     egress to non-company equipment, and the company has requested recovery in the
-    shortest possible time. Which of the following will BEST meet these goals?"'
+    shortest possible time. Which of the following will BEST meet these goals?
   category: Comp. Sci.
   answers:
   - A warm site
