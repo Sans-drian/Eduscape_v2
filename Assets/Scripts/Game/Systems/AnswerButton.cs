@@ -81,10 +81,12 @@ public class AnswerButton : MonoBehaviour
         if (isCorrect) //if it is the correct answer
         {
             pointCounter.increasePoints(correctPointAmount);
-            calculateAnsAcc.storeIndvAns();
+            calculateAnsAcc.storeIndvAns(); //call method to calculate individual answer accuracy and store it in the dict (see CalculateAnsAcc script)
             chestManager.disableChest();
             Debug.Log("Correct Answer");
 
+
+            //debugging purposes
             foreach (var kvp in calculateAnsAcc.qClickedCount)
             {
                 int arrayNameTest = kvp.Key;
