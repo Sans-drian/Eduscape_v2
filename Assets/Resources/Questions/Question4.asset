@@ -13,12 +13,11 @@ MonoBehaviour:
   m_Name: Question4
   m_EditorClassIdentifier: 
   questionNum: 
-  question: A server administrator needs to deploy five VMs. all of which must have
-    the same type of configuration. Which of the following would be the MOST efficient
-    way to perform this task?
+  question: A technician wants to limit disk usage on a server. Which of the following
+    should the technician implement?
   category: Comp. Sci.
   answers:
-  - Use a VM template.
-  - Snapshot a VM.
-  - Use a physical host.
-  - Perform a P2V conversion.
+  - Disk quotas
+  - Formatting
+  - Compression
+  - Partitioning

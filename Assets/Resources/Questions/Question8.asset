@@ -13,14 +13,12 @@ MonoBehaviour:
   m_Name: Question8
   m_EditorClassIdentifier: 
   questionNum: 
-  question: Users at a company work with highly sensitive data. The security department
-    implemented an administrative and technical control to enforce least-privilege
-    access assigned to files. However, the security department has discovered unauthorized
-    data exfiltration. Which of the following is the BEST way to protect the data
-    from leaking?
+  question: A server administrator is deploying a UPS at a datacenter and notices
+    the device is making an audible beep every few seconds. Which of the following
+    is the MOST likely cause?
   category: Comp. Sci.
   answers:
-  - Install a DLP solution.
-  - Utilize privacy screens.
-  - Implement disk quotas.
-  - Enforce the lock-screen feature
+  - The battery is faulty
+  - The battery cable is disconnected
+  - The device is plugged into the wrong outlet
+  - The serial cable is not connected
