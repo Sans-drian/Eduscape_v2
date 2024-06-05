@@ -1714,7 +1714,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1993943718}
         m_TargetAssemblyTypeName: getInput, Assembly-CSharp
-        m_MethodName: runGame
+        m_MethodName: callRunGame
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
