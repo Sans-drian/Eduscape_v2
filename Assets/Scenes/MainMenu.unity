@@ -340,8 +340,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1993943718}
-        m_TargetAssemblyTypeName: getInput, Assembly-CSharp
+      - m_Target: {fileID: 1993943721}
+        m_TargetAssemblyTypeName: MainMenuScript, Assembly-CSharp
         m_MethodName: GetInputAndSetQ
         m_Mode: 1
         m_Arguments:
@@ -1628,7 +1628,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1993943719}
-  - component: {fileID: 1993943718}
+  - component: {fileID: 1993943721}
   - component: {fileID: 1993943720}
   m_Layer: 0
   m_Name: GameManager
@@ -1637,21 +1637,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1993943718
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1993943717}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 70153af22cb4fc44e93ed6495432e36c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  inputField: {fileID: 1518931192}
-  debugText: {fileID: 1824829527}
-  databaseMethods: {fileID: 1993943720}
 --- !u!4 &1993943719
 Transform:
   m_ObjectHideFlags: 0
@@ -1682,8 +1667,8 @@ MonoBehaviour:
   sendErrorDatabase:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1993943718}
-        m_TargetAssemblyTypeName: getInput, Assembly-CSharp
+      - m_Target: {fileID: 1993943721}
+        m_TargetAssemblyTypeName: MainMenuScript, Assembly-CSharp
         m_MethodName: IfMissingDatabase
         m_Mode: 0
         m_Arguments:
@@ -1697,8 +1682,8 @@ MonoBehaviour:
   sendErrorFileName:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1993943718}
-        m_TargetAssemblyTypeName: getInput, Assembly-CSharp
+      - m_Target: {fileID: 1993943721}
+        m_TargetAssemblyTypeName: MainMenuScript, Assembly-CSharp
         m_MethodName: IfMissingFileName
         m_Mode: 1
         m_Arguments:
@@ -1712,8 +1697,8 @@ MonoBehaviour:
   runGame:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1993943718}
-        m_TargetAssemblyTypeName: getInput, Assembly-CSharp
+      - m_Target: {fileID: 1993943721}
+        m_TargetAssemblyTypeName: MainMenuScript, Assembly-CSharp
         m_MethodName: callRunGame
         m_Mode: 1
         m_Arguments:
@@ -1724,6 +1709,21 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &1993943721
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1993943717}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6ee79f167b670004dac9a35def98192e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  inputField: {fileID: 1518931192}
+  debugText: {fileID: 1824829527}
+  databaseMethods: {fileID: 1993943720}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
