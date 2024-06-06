@@ -4,11 +4,13 @@ using System.IO;
 
 public class TSVtoSO 
 {
-    private static string questionsTSVPath = "/Editor/TSVs/QuestionExamplesCS.txt";
+    public static string fileNameInput;
+    private static string questionsTSVPath = "/Editor/TSVs/"; //QuestionExamplesCS.txt
     private static int numberOfAnswer = 4;
 
-    [MenuItem("Utilities/Generate Questions")]
+    string fullpath = Path.Combine(Application.dataPath, questionsTSVPath, fileNameInput); //FIX THIS CODE (ACTUALLY, I THINK I NEED TO MAKE THIS PUBLIC CLASS MONOBEHAVIOUR)
 
+    [MenuItem("Utilities/Generate Questions")]
     public static void GeneratePhrases()
     {
         Debug.Log("Generated Questions");

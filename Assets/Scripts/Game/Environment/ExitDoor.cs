@@ -8,22 +8,31 @@ public class ExitDoor : MonoBehaviour
     public bool isInteracting;
     public GameObject exitMenu;
     public PlayerMovement playerMovement;
+    public PauseMenu pauseMenu;
+    
 
     public void openExitMenu()
     {
-        if(!isInteracting)
+        if (!pauseMenu.isPaused)
         {
-            isInteracting = true;
-            exitMenu.SetActive(true);
+            if(!isInteracting)
+            {
+                isInteracting = true;
+                exitMenu.SetActive(true);
 
-            playerMovement.GetComponent<PlayerMovement>().canMove = false;            
+                playerMovement.GetComponent<PlayerMovement>().canMove = false;            
+            }
+            else if(isInteracting)
+            {
+                isInteracting = false;
+                exitMenu.SetActive(false);
+                
+                playerMovement.GetComponent<PlayerMovement>().canMove = true;
+            }
         }
-        else if(isInteracting)
+        else
         {
-            isInteracting = false;
-            exitMenu.SetActive(false);
-            
-            playerMovement.GetComponent<PlayerMovement>().canMove = true;
+            Debug.Log("Is in pause menu. Not able to interact");
         }
     }
 }

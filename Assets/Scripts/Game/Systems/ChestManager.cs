@@ -13,10 +13,12 @@ public class ChestManager : MonoBehaviour
     public GameObject quizMenu;
     public bool isInteractingChest;
     public PlayerMovement playerMovement;
+    public PauseMenu pauseMenu;
 
     void Awake()
     {
         questionSetup = FindObjectOfType<QuestionSetup>(); //this might be useless.. (doesnt do anything? but keep it regardless)
+        pauseMenu = GetComponent<PauseMenu>();
     }
 
     // Start is called before the first frame update
@@ -51,31 +53,37 @@ public class ChestManager : MonoBehaviour
         GameObject interactingChest = chests[clickedObjectIndex]; // Get the specific GameObject
         var chest = interactingChest.GetComponent<Chest>(); // place the component into the variable chest
 
-
-        if (!chest.isAnswered) //if the chest is not answered
-        {
-            Debug.Log("Chest is not answered");
-
-            if (!isInteractingChest) 
+        if (!pauseMenu.isPaused)   
+        {    
+            if (!chest.isAnswered) //if the chest is not answered
             {
-                isInteractingChest = true;
-                quizMenu.SetActive(true);
-                playerMovement.GetComponent<PlayerMovement>().canMove = false;
-                
-                displayQuestion();
-                
+                Debug.Log("Chest is not answered");
+
+                if (!isInteractingChest) 
+                {
+                    isInteractingChest = true;
+                    quizMenu.SetActive(true);
+                    playerMovement.GetComponent<PlayerMovement>().canMove = false;
+                    
+                    displayQuestion();
+                    
+                }
+                else if (isInteractingChest)
+                {
+                    quizMenu.SetActive(false);
+                    isInteractingChest = false;
+                    
+                    playerMovement.GetComponent<PlayerMovement>().canMove = true;
+                }
             }
-            else if (isInteractingChest)
+            else
             {
-                quizMenu.SetActive(false);
-                isInteractingChest = false;
-                
-                playerMovement.GetComponent<PlayerMovement>().canMove = true;
+                Debug.Log("Chest is already answered");
             }
         }
         else
         {
-            Debug.Log("Chest is already answered");
+            Debug.Log("Currently paused, not able to interact.");
         }
     }
 

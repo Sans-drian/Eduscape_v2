@@ -1,11 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class PauseMenu : MonoBehaviour
 {
-    [SerializeField]
-    private bool isPaused;
+    public bool isPaused;
     [SerializeField]
     private GameObject pauseMenu;
     [SerializeField]
@@ -13,13 +13,13 @@ public class PauseMenu : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Escape))
+        if (Input.GetKeyDown(KeyCode.Escape)) //check for player pressing escape key
         {
             openPauseMenu();
         }
     }
 
-    public void openPauseMenu()
+    public void openPauseMenu() //simple open pause menu method
     {
         if(!isPaused)
         {
@@ -35,5 +35,10 @@ public class PauseMenu : MonoBehaviour
             
             playerMovement.GetComponent<PlayerMovement>().canMove = true;
         }
+    }
+
+    public void goToMainMenu()
+    {
+        SceneManager.LoadScene("MainMenu");
     }
 }
