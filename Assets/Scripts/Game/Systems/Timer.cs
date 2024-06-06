@@ -71,10 +71,4 @@ public class Timer : MonoBehaviour
         setElapsedTime.Invoke(elapsedTimeText); //invoke event that holds method to set the elapsed time text
     }
 
-    public string GetElapsedTime() //get method for the elapsed time
-    {
-        return elapsedTimeText;
-    }
-
-    
 }

@@ -3,9 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using System.Drawing;
+using UnityEngine.Events;
 
 public class AnswerButton : MonoBehaviour
 {
+    public UnityEvent correctPressed;
+    public UnityEvent wrongPressed;
+
     [SerializeField]
     private bool isCorrect; //know if this button is the correct answer
     [SerializeField]
@@ -26,11 +30,7 @@ public class AnswerButton : MonoBehaviour
 
     private int correctPointAmount = 1;
 
-    void Awake()
-    {
-        
-    }
-
+    
     void Start()
     {
         //questionSetup = FindObjectOfType<QuestionSetup>();
@@ -80,6 +80,7 @@ public class AnswerButton : MonoBehaviour
         
         if (isCorrect) //if it is the correct answer
         {
+            correctPressed.Invoke();
             pointCounter.increasePoints(correctPointAmount);
             calculateAnsAcc.storeIndvAns(); //call method to calculate individual answer accuracy and store it in the dict (see CalculateAnsAcc script)
             chestManager.disableChest();
@@ -97,6 +98,7 @@ public class AnswerButton : MonoBehaviour
         }
         else //if it is the wrong answer
         {
+            wrongPressed.Invoke();
             timer.decreaseTime();
             Debug.Log("Wrong Answer");
 

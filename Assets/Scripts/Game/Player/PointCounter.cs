@@ -21,7 +21,10 @@ public class PointCounter : MonoBehaviour
     ===========================================================================
     */
 
+    public UnityEvent setAvgAnsAcc;
+    public UnityEvent setElapsedTime;
     public UnityEvent setLocalTime;
+    public UnityEvent saveGameResults;
 
     public static PointCounter instance;
 
@@ -68,7 +71,11 @@ public class PointCounter : MonoBehaviour
     {
         if (currentKeys >= winCondition)
         {
+            setAvgAnsAcc.Invoke();
+            setElapsedTime.Invoke();
             setLocalTime.Invoke();
+            saveGameResults.Invoke();
+            
             SceneManager.LoadScene("WinScreen");
         }
     }

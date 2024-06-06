@@ -31,12 +31,6 @@ public class ChestManager : MonoBehaviour
         */ 
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
     public void checkWhichChest(GameObject obj) //this function sets the value of which chest the player is interacting with
     {
         clickedObjectIndex = chests.IndexOf(obj);

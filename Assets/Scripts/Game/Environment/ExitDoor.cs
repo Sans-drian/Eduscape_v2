@@ -9,18 +9,6 @@ public class ExitDoor : MonoBehaviour
     public GameObject exitMenu;
     public PlayerMovement playerMovement;
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
     public void openExitMenu()
     {
         if(!isInteracting)

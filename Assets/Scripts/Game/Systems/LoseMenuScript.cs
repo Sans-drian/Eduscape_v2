@@ -11,7 +11,7 @@ public class LoseMenuScript : MonoBehaviour
 
     public GameObject loseMenu;
     public GameObject countdownScreen;
-    private string txtColor = "#B0FF58"; //non-error texts will have this color
+    private string txtColor = "#B0FF58"; // texts will have this color
 
     
     public void mainMenu() //run method when player presses the Main Menu button

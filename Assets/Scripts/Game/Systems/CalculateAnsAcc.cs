@@ -20,11 +20,6 @@ public class CalculateAnsAcc : MonoBehaviour
 
     int[] currentQuestion; //int array to store the array from
 
-
-    void Awake()
-    {
-
-    }
     // Start is called before the first frame update
     void Start()
     {
@@ -39,7 +34,7 @@ public class CalculateAnsAcc : MonoBehaviour
 
     public void setAvgCalcAnsPPref()
     {
-        float x = calcAveAnsAcc();
+        float x = calcAvgAnsAcc();
         setAvgAnsAcc.Invoke(x.ToString());
         //Debug.Log($"The calculated average answer accuracy is {x}");
 
@@ -187,7 +182,7 @@ public class CalculateAnsAcc : MonoBehaviour
     }
 
 
-    public float calcAveAnsAcc() //calculate the average answer accuracy
+    public float calcAvgAnsAcc() //calculate the average answer accuracy
     {
         float sumAnsAcc = 0;
 
