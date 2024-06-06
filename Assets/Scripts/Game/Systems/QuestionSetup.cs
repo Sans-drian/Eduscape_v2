@@ -68,20 +68,6 @@ public class QuestionSetup : MonoBehaviour
         }
     }
 
-    // Start is called before the first frame update
-    void Start()
-    {
-
-          
-
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
 
     public void runDisplayMethods() //run the function from Question Setup script, in this order.
     {
@@ -177,7 +163,23 @@ public class QuestionSetup : MonoBehaviour
     {
         //Get all questions from question folder
         questions = new List<QuestionData>(Resources.LoadAll<QuestionData>("Questions"));
+
+        //Debug.Log($"question assets list before shuffle: {string.Join(", ", questions)}"); //Debugging: show list before shuffle
+        ShuffleList(questions);
+        //Debug.Log($"question assets list after shuffle: {string.Join(", ", questions)}"); //Debugging: show list after shuffle
     }
+
+    private void ShuffleList(List<QuestionData> inputList) //randomize the elements in the list, in turn, randomizing the position of questions
+    {
+        for (int i = 0; i < questions.Count - 1; i++)
+        {
+            QuestionData temp = inputList[i];
+            int rand = Random.Range(i, questions.Count);
+            inputList[i] = inputList[rand];
+            inputList[rand] = temp;
+        }        
+    }
+
 
     public void SelectNewQuestion()
     {

@@ -1,11 +1,17 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using UnityEngine.SceneManagement;
+using UnityEngine.Events;
 
 public class Timer : MonoBehaviour
 {
+    [Serializable]
+    public class StringEvent : UnityEvent<string> {} //create custom unity event class which can take in a string argument
+    public StringEvent setElapsedTime;
+
     [SerializeField]
     TextMeshProUGUI timerText;
 
@@ -61,6 +67,8 @@ public class Timer : MonoBehaviour
         int seconds = Mathf.FloorToInt(elapsedTime % 60);
         elapsedTimeText = string.Format("{0:00}:{1:00}", minutes, seconds);
         Debug.Log($"Elapsed time is: {elapsedTimeText}"); //debugging purposes
+
+        setElapsedTime.Invoke(elapsedTimeText); //invoke event that holds method to set the elapsed time text
     }
 
     public string GetElapsedTime() //get method for the elapsed time

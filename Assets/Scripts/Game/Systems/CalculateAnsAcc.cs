@@ -1,11 +1,17 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.Mathematics;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.Events;
 
 public class CalculateAnsAcc : MonoBehaviour
 {
+    [Serializable]
+    public class StringEvent : UnityEvent<string> {} //create custom unity event class which can take in a string argument
+    public StringEvent setAvgAnsAcc;
+
     public QuestionSetup questionSetup;
     public ChestManager chestManager;
     
@@ -31,16 +37,11 @@ public class CalculateAnsAcc : MonoBehaviour
         //debuggingStuff(); //please uncomment the function first before using this
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-    
-    public void testCalcAnsAcc()
+    public void setAvgCalcAnsPPref()
     {
         float x = calcAveAnsAcc();
-        Debug.Log($"The calculated average answer accuracy is {x}");
+        setAvgAnsAcc.Invoke(x.ToString());
+        //Debug.Log($"The calculated average answer accuracy is {x}");
 
     }
 
@@ -139,12 +140,12 @@ public class CalculateAnsAcc : MonoBehaviour
     {
         if (dictionary.TryGetValue(arrayValue, out T[] array))
         {
-            Debug.Log($"Array {arrayValue} found in dictionary");
+            //Debug.Log($"Array {arrayValue} found in dictionary");
             return array;
         }
         else
         {
-            Debug.LogError($"Array '{arrayValue}' not found in the dictionary.");
+            //Debug.LogError($"Array '{arrayValue}' not found in the dictionary.");
             return null;
         }
     }
@@ -190,15 +191,17 @@ public class CalculateAnsAcc : MonoBehaviour
     {
         float sumAnsAcc = 0;
 
-        for (int i = 0; i < questionSetup.questionsCount; i++)
+        for (int i = 0; i < questionSetup.questionsCount; i++) //iterate through question array to add to sum
         {
             float[] questionArr = GetIndvArray(i, indvAnsAcc);
-            float curentAnsCalc = questionArr[0];
+            float currentAnsCalc = questionArr[0];
             
-            sumAnsAcc += curentAnsCalc;
+            sumAnsAcc += currentAnsCalc;
         }
         
-        float totalAnsAcc = sumAnsAcc / questionSetup.questionsCount; 
+        float rawAnsAcc = sumAnsAcc / questionSetup.questionsCount;  //calculation here
+        float totalAnsAcc = rawAnsAcc * 100; //change to percentage form
+        totalAnsAcc = Mathf.RoundToInt(totalAnsAcc * 100f) / 100f; //round up the number
 
         return totalAnsAcc;
     }

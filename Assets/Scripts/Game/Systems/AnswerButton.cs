@@ -37,11 +37,11 @@ public class AnswerButton : MonoBehaviour
 
         if (questionSetup != null)
         {
-            Debug.Log("questionSetup is not null");
+            //Debug.Log("questionSetup is not null");
         }
         else
         {
-            Debug.LogError("questionSetup is null");
+            //Debug.LogError("questionSetup is null");
         }
     }
 
@@ -110,17 +110,6 @@ public class AnswerButton : MonoBehaviour
             {
                 Debug.Log("Button isPressed is already true");
             }
-        }
-
-
-        if (pointCounter.currentKeys == pointCounter.winCondition)
-        {
-            Debug.Log("Whoo nelly! Got all the questions correct!");
-
-        }
-        else
-        {
-            Debug.Log("Key count not at winCondition yet.");
         }
     }
 

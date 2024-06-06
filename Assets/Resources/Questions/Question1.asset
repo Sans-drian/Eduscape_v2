@@ -13,13 +13,13 @@ MonoBehaviour:
   m_Name: Question1
   m_EditorClassIdentifier: 
   questionNum: 
-  question: An administrator is configuring a server to communicate with a new storage
-    array. To do so, the administrator enters WWPN of the new array in the server's
-    storage configuration. Which of the following technologies is the new connection
-    using?
+  question: A company is reviewing options for its current disaster recovery plan
+    and potential changes to it. The security team will not allow customer data to
+    egress to non-company equipment, and the company has requested recovery in the
+    shortest possible time. Which of the following will BEST meet these goals?
   category: Comp. Sci.
   answers:
-  - iSCSI
-  - eSATA
-  - NFS
-  - FCoE
+  - A warm site
+  - A hot site
+  - Cloud recovery
+  - A cold site

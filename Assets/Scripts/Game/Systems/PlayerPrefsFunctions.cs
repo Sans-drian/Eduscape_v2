@@ -6,8 +6,8 @@ public class PlayerPrefsFunctions : MonoBehaviour
 {
     private string playerName;
     private string qListName;
-    private float avgCalcAns;
-    private float elapsedTime;
+    private string avgCalcAns;
+    private string elapsedTime;
     private string localTime;
 
     public void SaveDataInfo() //called in the main menu
@@ -25,8 +25,8 @@ public class PlayerPrefsFunctions : MonoBehaviour
 
     public void SaveDataResults() //called after the game finishes
     {
-        PlayerPrefs.SetFloat("AvgCalcAns", avgCalcAns); //set player prefs
-        PlayerPrefs.SetFloat("ElapsedTime", elapsedTime);
+        PlayerPrefs.SetString("AvgCalcAns", avgCalcAns); //set player prefs
+        PlayerPrefs.SetString("ElapsedTime", elapsedTime);
         PlayerPrefs.SetString("LocalTime", localTime);
 
 
@@ -50,18 +50,19 @@ public class PlayerPrefsFunctions : MonoBehaviour
         qListName = input;
     }
 
-    public void setAvgCalcAns(float input)
+    public void setAvgCalcAns(string input)
     {
         avgCalcAns = input;
     }
 
-    public void setElapsedTime(float input)
+    public void setElapsedTime(string input)
     {
         elapsedTime = input;
     }
 
-    public void setLocalTime(string input)
+    public void setLocalTime()
     {
-        localTime = input;
+        localTime = System.DateTime.Now.ToString("yyyy/MM/dd_HH:mm:ss");
+        Debug.Log($"Local time set in player pref: {localTime}");
     }
 }

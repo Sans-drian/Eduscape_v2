@@ -1,9 +1,11 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using UnityEngine.Events;
 
 public class PointCounter : MonoBehaviour
 {
@@ -18,6 +20,8 @@ public class PointCounter : MonoBehaviour
 
     ===========================================================================
     */
+
+    public UnityEvent setLocalTime;
 
     public static PointCounter instance;
 
@@ -64,6 +68,7 @@ public class PointCounter : MonoBehaviour
     {
         if (currentKeys >= winCondition)
         {
+            setLocalTime.Invoke();
             SceneManager.LoadScene("WinScreen");
         }
     }

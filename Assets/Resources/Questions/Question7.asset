@@ -13,12 +13,13 @@ MonoBehaviour:
   m_Name: Question7
   m_EditorClassIdentifier: 
   questionNum: 
-  question: A server administrator is creating a new server that will be used to
-    house customer sales records. Which of the following roles will MOST likely be
-    installed on the server?
+  question: A server administrator is configuring a new server that will hold large
+    amounts of information. The server will need to be accessed by multiple users
+    at the same time . Which of the following server roles will the administrator
+    MOST likely need to install?
   category: Comp. Sci.
   answers:
-  - Database
-  - Print
-  - File
+  - Application
   - Messaging
+  - Print
+  - Database
