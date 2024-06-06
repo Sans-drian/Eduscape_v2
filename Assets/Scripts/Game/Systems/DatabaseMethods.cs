@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -6,7 +7,7 @@ using UnityEngine.Events;
 
 public class DatabaseMethods : MonoBehaviour
 {
-    [System.Serializable]
+    [Serializable]
     public class StringEvent : UnityEvent<string> {} //create custom unity event class which can take in a string argument
     public StringEvent sendErrorDatabase; //send event when database is not found 
     public UnityEvent sendErrorFileName; //send event when column from table is not found
@@ -16,8 +17,11 @@ public class DatabaseMethods : MonoBehaviour
     //private static string fileLocation = "/Editor/TSVs";
     private static string assetLocation = "Assets/Resources/Questions/";
     private string fileName; //string variable fileName holds the name of the question file that will be searched in the table of the database
+    
+    /*
+    ============== CONNECTION STRING BELOW, PLEASE SET THIS CORRECTLY TO PROPERLY CONNECT TO YOUR DATABASE =================================
+    */
     private string connectionString = "Server=localhost;Database=eduscapeqdatabasetest;User=root;Password=;";
-    // Start is called before the first frame update
 
     public void createQuestionList()
     {
