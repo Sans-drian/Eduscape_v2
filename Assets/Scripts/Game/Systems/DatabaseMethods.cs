@@ -33,6 +33,18 @@ public class DatabaseMethods : MonoBehaviour
         fileName = input;
     }
 
+    public void saveDataToDatabase()
+    {   
+        //get the strings of the playerprefs and set them into a temporary string variable
+        string playerName = PlayerPrefs.GetString("PlayerName");
+        string avgAnsAcc = PlayerPrefs.GetString("AvgCalcAns");
+        string elapsedTime = PlayerPrefs.GetString("ElapsedTime");
+        string questionList = PlayerPrefs.GetString("QListName");
+        string dateTime = PlayerPrefs.GetString("LocalTime");
+
+        InsertPlayerSessionResult(playerName, avgAnsAcc, elapsedTime, questionList, dateTime);
+    }
+
     // Method to retrieve data from the database
     public List<QuestionData> GetQuestionDataFromDatabase(string valueToSearch)
     {
@@ -134,6 +146,41 @@ public class DatabaseMethods : MonoBehaviour
         else
         {
             Debug.LogError("database is null");
+        }
+    }
+
+
+    public void InsertPlayerSessionResult(string playerName, string avgAnsAcc, string elapsedTime, string questionList, string dateTime)
+    {
+        try
+        {
+            using (MySqlConnection connection = new MySqlConnection(connectionString))
+            {
+                connection.Open();
+
+                // Execute your SQL query
+                string query = $"INSERT INTO playersessionresult (PLAYER_NAME, AVERAGE_ANSWER_ACCURACY, ELAPSED_TIME, QUESTION_LIST, DATE_TIME) " +
+                   "VALUES (@playerName, @avgAnsAcc, @elapsedTime, @questionList, @dateTime)";
+
+                using (MySqlCommand cmd = new MySqlCommand(query, connection))
+                {
+                    // Set parameter values
+                    cmd.Parameters.AddWithValue("@playerName", playerName);
+                    cmd.Parameters.AddWithValue("@avgAnsAcc", avgAnsAcc);
+                    cmd.Parameters.AddWithValue("@elapsedTime", elapsedTime);
+                    cmd.Parameters.AddWithValue("@questionList", questionList);
+                    cmd.Parameters.AddWithValue("@dateTime", dateTime);
+
+                    // Execute the query
+                    cmd.ExecuteNonQuery();
+                }
+                Debug.Log("Insert to database successful!");
+            }
+        }
+        catch (MySqlException e)
+        {
+            Debug.LogError($"Error fetching data from the database: {e.Message}");
+            //sendErrorDatabase.Invoke(e.Message); //send event when database is not found
         }
     }
 }
