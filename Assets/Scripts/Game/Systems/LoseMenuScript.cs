@@ -27,7 +27,7 @@ public class LoseMenuScript : MonoBehaviour
     private IEnumerator loadGame()
     {
         countdownScreen.SetActive(true);
-        loseMenu.SetActive(true);
+        loseMenu.SetActive(false);
         /*
         TIMER FUNCTION (5 seconds):
         This implementation of the timer countdown is very bad, but works for now, please improve upon it in the future, to whom ever sees this.
