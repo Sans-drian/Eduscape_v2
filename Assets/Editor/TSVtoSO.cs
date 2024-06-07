@@ -4,6 +4,15 @@ using System.IO;
 
 public class TSVtoSO 
 {
+    /*
+
+    This script is the original script created to take the question list from the file location of the assets folder.
+    Created before the database implementation, this script is meant to work locally, as in, the question files are already set before the build.
+    This old script that is not monobehavior is not used anymore, though, it will not be deleted for the purpose of keeping documentation and 
+    for any future needs, should the opportunity arise.
+
+    */
+    
     public static string fileNameInput;
     private static string questionsTSVPath = "/Editor/TSVs/"; //QuestionExamplesCS.txt
     private static int numberOfAnswer = 4;
