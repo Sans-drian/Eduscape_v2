@@ -13,10 +13,10 @@ MonoBehaviour:
   m_Name: Question1
   m_EditorClassIdentifier: 
   questionNum: 
-  question: A company is reviewing options for its current disaster recovery plan
+  question: '"A company is reviewing options for its current disaster recovery plan
     and potential changes to it. The security team will not allow customer data to
     egress to non-company equipment, and the company has requested recovery in the
-    shortest possible time. Which of the following will BEST meet these goals?
+    shortest possible time. Which of the following will BEST meet these goals?"'
   category: Comp. Sci.
   answers:
   - A warm site

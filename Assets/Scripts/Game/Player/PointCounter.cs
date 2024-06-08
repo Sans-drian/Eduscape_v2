@@ -71,6 +71,7 @@ public class PointCounter : MonoBehaviour
     {
         if (currentKeys >= winCondition)
         {
+            //these invokes below are for saving the data into the playerprefs inside unity, not saving the results to the database.
             setAvgAnsAcc.Invoke();
             setElapsedTime.Invoke();
             setLocalTime.Invoke();

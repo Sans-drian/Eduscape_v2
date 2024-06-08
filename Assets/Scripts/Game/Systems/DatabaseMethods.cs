@@ -4,14 +4,15 @@ using System.Collections.Generic;
 using UnityEngine;
 using MySql.Data.MySqlClient;
 using UnityEngine.Events;
+using UnityEditor;
 
 public class DatabaseMethods : MonoBehaviour
 {
     [Serializable]
     public class StringEvent : UnityEvent<string> {} //create custom unity event class which can take in a string argument
-    public StringEvent sendErrorDatabase; //send event when database is not found 
     public UnityEvent sendErrorFileName; //send event when column from table is not found
     public UnityEvent runGame; //send event to start game
+    public StringEvent contToTSVScript;
 
 
     //private static string fileLocation = "/Editor/TSVs";
@@ -23,26 +24,56 @@ public class DatabaseMethods : MonoBehaviour
     */
     private string connectionString = "Server=localhost;Database=eduscapeqdatabasetest;User=root;Password=;";
 
-    public void createQuestionList()
+    private bool isDatabaseOn; //This boolean ensures that the database methods do not run if there is a problem connecting to the database.
+
+
+    void Start()
     {
-        CreateQuestionDataFromDatabase();
+        isDatabaseOn = true;
+    }
+    
+    public bool getDatabaseOn() //get method to return isDatabaseOn
+    {
+        return isDatabaseOn;
     }
 
-    public void setFileName(string input)
+    public void createQuestionList()
+    {
+        if (isDatabaseOn) //check if isDatabaseOn is true
+        {
+            CreateQuestionDataFromDatabase();
+        }
+        else
+        {
+            Debug.LogWarning("There was a problem connecting to the database. The game will now search question files from its own asset folder");
+        }
+
+    }
+
+    public void setFileName(string input) //takes input of whatever player's file name input is and set it to the fileName string
     {
         fileName = input;
     }
 
     public void saveDataToDatabase()
     {   
-        //get the strings of the playerprefs and set them into a temporary string variable
-        string playerName = PlayerPrefs.GetString("PlayerName");
-        string avgAnsAcc = PlayerPrefs.GetString("AvgCalcAns");
-        string elapsedTime = PlayerPrefs.GetString("ElapsedTime");
-        string questionList = PlayerPrefs.GetString("QListName");
-        string dateTime = PlayerPrefs.GetString("LocalTime");
 
-        InsertPlayerSessionResult(playerName, avgAnsAcc, elapsedTime, questionList, dateTime);
+        if (isDatabaseOn)
+        {
+            //get the strings of the playerprefs and set them into a temporary string variable
+            string playerName = PlayerPrefs.GetString("PlayerName");
+            string avgAnsAcc = PlayerPrefs.GetString("AvgCalcAns");
+            string elapsedTime = PlayerPrefs.GetString("ElapsedTime");
+            string questionList = PlayerPrefs.GetString("QListName");
+            string dateTime = PlayerPrefs.GetString("LocalTime");
+
+            InsertPlayerSessionResult(playerName, avgAnsAcc, elapsedTime, questionList, dateTime);
+        }
+        else
+        {
+            Debug.LogWarning("There was a problem connecting to the database ealier. The game will not try to query entry into the table of the database");
+        }
+
     }
 
     // Method to retrieve data from the database
@@ -86,7 +117,7 @@ public class DatabaseMethods : MonoBehaviour
                     }
                     else
                     {
-                        //Debug.LogError($"No rows found in the database for column: {valueToSearch}");
+                        Debug.LogError($"No rows found in the database for column: {valueToSearch}");
                         sendErrorFileName.Invoke(); //send event when column from table is not found
                         return null;
                     }
@@ -97,8 +128,9 @@ public class DatabaseMethods : MonoBehaviour
         }
         catch (MySqlException e)
         {
-            //Debug.LogError($"Error fetching data from the database: {e.Message}");
-            sendErrorDatabase.Invoke(e.Message); //send event when database is not found
+            Debug.LogError($"Error fetching data from the database: {e.Number}: {e.Message}");
+            isDatabaseOn = false;
+            contToTSVScript.Invoke(fileName); //run the method to search question list from TSVtoSO, once
             return null;
         }
 
@@ -112,10 +144,10 @@ public class DatabaseMethods : MonoBehaviour
 
         // Delete existing assets (if any) before creating new ones
         string assetFolderPath = assetLocation; // Adjust the folder path as needed
-        string[] existingAssetPaths = UnityEditor.AssetDatabase.FindAssets("t:Question", new[] { assetFolderPath });
+        string[] existingAssetPaths = AssetDatabase.FindAssets("t:Question", new[] { assetFolderPath });
         foreach (var existingAssetPath in existingAssetPaths)
         {
-            UnityEditor.AssetDatabase.DeleteAsset(existingAssetPath);
+            AssetDatabase.DeleteAsset(existingAssetPath);
         }
 
         // Retrieve data from the database
@@ -133,15 +165,15 @@ public class DatabaseMethods : MonoBehaviour
 
                 // Save the instance as an asset
                 string newAssetPath = $"{assetFolderPath}Question{row.questionNum}.asset";
-                UnityEditor.AssetDatabase.CreateAsset(questionData, newAssetPath);
+                AssetDatabase.CreateAsset(questionData, newAssetPath);
             }
             
             Debug.Log("Questions created from database data! (Ran from DatabaseMethods.cs)");
             runGame.Invoke(); //send event to start game
             
             // Refresh the AssetDatabase
-            UnityEditor.AssetDatabase.SaveAssets();
-            UnityEditor.AssetDatabase.Refresh();
+            AssetDatabase.SaveAssets();
+            AssetDatabase.Refresh();
         }
         else
         {
@@ -158,7 +190,7 @@ public class DatabaseMethods : MonoBehaviour
             {
                 connection.Open();
 
-                // Execute your SQL query
+                // This SQL query is to insert an entry into the table
                 string query = $"INSERT INTO playersessionresult (PLAYER_NAME, AVERAGE_ANSWER_ACCURACY, ELAPSED_TIME, QUESTION_LIST, DATE_TIME) " +
                    "VALUES (@playerName, @avgAnsAcc, @elapsedTime, @questionList, @dateTime)";
 

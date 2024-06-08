@@ -838,6 +838,9 @@ MonoBehaviour:
   runGame:
     m_PersistentCalls:
       m_Calls: []
+  databaseOffNotif:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &611644031
 GameObject:
   m_ObjectHideFlags: 0

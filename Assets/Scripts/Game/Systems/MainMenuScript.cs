@@ -11,9 +11,9 @@ public class MainMenuScript : MonoBehaviour
 {   
     [Serializable]
     public class StringEvent : UnityEvent<string> {} //create custom unity event class which can take in a string argument
-    
     public StringEvent setNameString;
     public StringEvent setFileNameString;
+    public StringEvent searchQListAndRun;
     public UnityEvent setPlayerPrefsInfo;
 
     [SerializeField]
@@ -54,14 +54,28 @@ public class MainMenuScript : MonoBehaviour
         }
         else //if name inputted is less than 20 characters and not empty
         {
-            input = inputFileName.text; //place input from text field
-            databaseMethods.setFileName(input); //set the fileName (columnname)
-
-            databaseMethods.createQuestionList(); //start method to create question list (from DatabaseMethods)
+            makeQuestionList();
         }
     }
 
+    public void makeQuestionList()
+    {
+        bool currentBoolDTB = databaseMethods.getDatabaseOn();
+        input = inputFileName.text; //place input from text field
 
+        if (currentBoolDTB) //if isDatabaseOn is true (or if its on)
+        {
+            databaseMethods.setFileName(input); //set the fileName (columnname)
+
+            databaseMethods.createQuestionList(); //start method to create question list (from DatabaseMethods)
+            // this method includes a unity event called runGame that is invoked when it successfully creates the questions taken from the database. 
+            // the runGame invoke is invoking the method callRunGame() that exists in this script.
+        }
+        else
+        {
+            searchQListAndRun.Invoke(input);
+        }
+    }
 
 
     public void IfMissingDatabase(string error) //method called when sendErrorDatabase event is invoked (from DatabaseMethods)
@@ -122,4 +136,5 @@ public class MainMenuScript : MonoBehaviour
         SceneManager.LoadScene("Game"); // change scene to game
         
     }
+
 }
