@@ -15,6 +15,11 @@ public class DatabaseMethods : MonoBehaviour
     public StringEvent contToTSVScript;
 
 
+    // the 2 unity events below will be used in testing the connection string
+    public UnityEvent sendMsgTrue;
+    public UnityEvent sendMsgFalse;
+
+
     //private static string fileLocation = "/Editor/TSVs";
     private static string assetLocation = "Assets/Resources/Questions/";
     private string fileName; //string variable fileName holds the name of the question file that will be searched in the table of the database
@@ -22,24 +27,99 @@ public class DatabaseMethods : MonoBehaviour
     /*
     ============== CONNECTION STRING BELOW, PLEASE SET THIS CORRECTLY TO PROPERLY CONNECT TO YOUR DATABASE =================================
     */
-    private string connectionString = "Server=localhost;Database=eduscapeqdatabasetest;User=root;Password=;";
+    private string connectionString;
 
-    private bool isDatabaseOn; //This boolean ensures that the database methods do not run if there is a problem connecting to the database.
+    private string inputServer;
+    private string inputDatabase;
+    private string inputUser;
+    private string inputPassword;
 
 
     void Start()
     {
-        isDatabaseOn = true;
+        connectionString = DatabaseManager.Instance.connectionString; //get the connection string from the DatabaseManager singleton script
     }
     
-    public bool getDatabaseOn() //get method to return isDatabaseOn
+
+
+
+
+    // Set methods for connection input strings
+    public void setInputServer(string inputServer)
     {
-        return isDatabaseOn;
+        this.inputServer = inputServer;
     }
+    public void setInputDatabase(string inputDatabase)
+    {
+        this.inputDatabase = inputDatabase;
+    }
+    public void setInputUser(string inputUser)
+    {
+        this.inputUser = inputUser;
+    }  
+    public void setInputPassword(string inputPassword)
+    {
+        this.inputPassword = inputPassword;
+    }
+
+    public void setAndRunConnectionString()
+    {
+        UpdateConnectionString(inputServer, inputDatabase, inputUser, inputPassword);
+        bool connectedDatabase = TestConnection();
+
+        if (connectedDatabase) //if connnection is set
+        {
+            sendMsgTrue.Invoke();
+            //Debug.Log("This connection string works and is set!");
+        }
+        else //if connection is not set
+        {
+            sendMsgFalse.Invoke();
+            //Debug.LogError("This connection string doesn't work!");
+        }
+    }
+
+    private void UpdateConnectionString(string userInputServer, string userInputDatabase, string userInputUser, string userInputPassword)
+    {
+        var builder = new MySqlConnectionStringBuilder(connectionString);
+        builder.Server = userInputServer;
+        builder.Database = userInputDatabase;
+        builder.UserID = userInputUser;
+        builder.Password = userInputPassword;
+
+        // Update the existing connection string
+        DatabaseManager.Instance.connectionString = builder.ConnectionString;
+        connectionString = DatabaseManager.Instance.connectionString;
+        Debug.Log($"Updated connection string: {DatabaseManager.Instance.connectionString}");
+    }
+
+    private bool TestConnection()
+    {
+        try
+        {
+            using (var connection = new MySqlConnection(DatabaseManager.Instance.connectionString))
+            {
+                connection.Open();
+                DatabaseManager.Instance.isDatabaseOn = true;
+                return true; // Connection successful
+            }
+        }
+        catch (Exception ex)
+        {
+            // Handle any exceptions (e.g., invalid credentials, server down)
+            Console.WriteLine($"Error connecting to the database: {ex.Message}");
+            DatabaseManager.Instance.isDatabaseOn = false;
+            return false; // Connection failed
+        }
+    }
+
+
+
+
 
     public void createQuestionList()
     {
-        if (isDatabaseOn) //check if isDatabaseOn is true
+        if (DatabaseManager.Instance.isDatabaseOn) //check if isDatabaseOn is true
         {
             CreateQuestionDataFromDatabase();
         }
@@ -58,7 +138,7 @@ public class DatabaseMethods : MonoBehaviour
     public void saveDataToDatabase()
     {   
 
-        if (isDatabaseOn)
+        if (DatabaseManager.Instance.isDatabaseOn)
         {
             //get the strings of the playerprefs and set them into a temporary string variable
             string playerName = PlayerPrefs.GetString("PlayerName");
@@ -83,7 +163,7 @@ public class DatabaseMethods : MonoBehaviour
 
         try
         {
-            using (MySqlConnection connection = new MySqlConnection(connectionString))
+            using (MySqlConnection connection = new MySqlConnection(DatabaseManager.Instance.connectionString))
             {
                 connection.Open();
 
@@ -129,7 +209,7 @@ public class DatabaseMethods : MonoBehaviour
         catch (MySqlException e)
         {
             Debug.LogError($"Error fetching data from the database: {e.Number}: {e.Message}");
-            isDatabaseOn = false;
+            DatabaseManager.Instance.isDatabaseOn = false;
             contToTSVScript.Invoke(fileName); //run the method to search question list from TSVtoSO, once
             return null;
         }
@@ -186,7 +266,7 @@ public class DatabaseMethods : MonoBehaviour
     {
         try
         {
-            using (MySqlConnection connection = new MySqlConnection(connectionString))
+            using (MySqlConnection connection = new MySqlConnection(DatabaseManager.Instance.connectionString))
             {
                 connection.Open();
 

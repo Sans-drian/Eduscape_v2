@@ -13,13 +13,12 @@ MonoBehaviour:
   m_Name: Question10
   m_EditorClassIdentifier: 
   questionNum: 
-  question: '"A technician has received multiple reports of issues with a server.
-    The server occasionally has a BSOD, powers off unexpectedly, and has fans that
-    run continuously. Which of the following BEST represents what the technician
-    should investigate during troubleshooting?"'
+  question: An administrator is researching the upcoming licensing software requirements
+    for an application that usually requires very little technical support. Which
+    of the following licensing models would be the LOWEST cost solution?
   category: Comp. Sci.
   answers:
-  - CPU overheating
-  - Firmware incompatibility
-  - LED indicators
-  - ESD issues
+  - Open-source
+  - Per CPU socket
+  - Per CPU core
+  - Enterprise agreement

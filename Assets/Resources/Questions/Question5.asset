@@ -13,14 +13,13 @@ MonoBehaviour:
   m_Name: Question5
   m_EditorClassIdentifier: 
   questionNum: 
-  question: '"A global organization keeps personnel application servers that are
-    local to each country. However, a security audit shows these application servers
-    are accessible from sites in other countries. Which of the following hardening
-    techniques should the organization use to restrict access to only sites that
-    are in the same country?"'
+  question: A systems administrator has noticed performance degradation on a company
+    file server, and one of the disks on it has a solid amber light. The administrator
+    logs on to the disk utility and sees the array is rebuilding. Which of the following
+    should the administrator do NEXT once the rebuild is finished?
   category: Comp. Sci.
   answers:
-  - Configure a firewall
-  - Close the unneeded ports
-  - Install a HIDS
-  - Disable unneeded services
+  - Swap the drive and initialize the disk.
+  - Restore the server from a snapshot.
+  - Restore the server from backup.
+  - Swap the drive and initialize the array.

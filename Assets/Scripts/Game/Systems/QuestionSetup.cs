@@ -36,7 +36,7 @@ public class QuestionSetup : MonoBehaviour
     [SerializeField]
     private int correctAnswerChoice; //keeps track which is correct answer
 
-    private void Awake() 
+    void Awake() 
     {
         chestList = FindObjectOfType<ChestManager>(); 
 
@@ -55,7 +55,8 @@ public class QuestionSetup : MonoBehaviour
         //Get all questions ready
         GetQuestionAssets();
         InitializeButtonBoolArrays();
-        //Debug.Log($"original question list count from QuestionSetup script is {questions.Count}");
+        Debug.Log($"original question list count from QuestionSetup script is {questions.Count}");
+        Debug.Log($"I ran properly.");
         questionsCount = questions.Count;
         //Debug.Log($"questionsCount int set from original question list from QuestionSetup script is {questionsCount}");
 

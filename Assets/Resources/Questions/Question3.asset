@@ -13,10 +13,12 @@ MonoBehaviour:
   m_Name: Question3
   m_EditorClassIdentifier: 
   questionNum: 
-  question: 'A snapshot is a feature that can be used in hypervisors to:'
+  question: A server administrator is testing a disaster recovery plan. The test
+    involves creating a downtime scenario and taking the necessary steps. Which of
+    the following testing methods is the administrator MOST likely performing?
   category: Comp. Sci.
   answers:
-  - perform a backup restore.
-  - roll back firmware updates.
-  - restore to a previous version.
-  - roll back application drivers.
+  - Tabletop
+  - Backup recovery
+  - Simulated
+  - Live failover

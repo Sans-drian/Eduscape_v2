@@ -13,12 +13,12 @@ MonoBehaviour:
   m_Name: Question9
   m_EditorClassIdentifier: 
   questionNum: 
-  question: A server administrator needs to create a new folder on a file server
-    that only specific users can access. Which of the following BEST describes how
-    the server administrator can accomplish this task?
+  question: A server technician is installing a new server OS on legacy server hardware.
+    Which of the following should the technician do FIRST to ensure the OS will work
+    as intended?
   category: Comp. Sci.
   answers:
-  - Create a group that includes all users and assign the proper permissions.
-  - Create a group that includes all users and assign it to an ACL.
-  - Assign individual permissions on the folder to each user.
-  - Assign ownership on the folder for each user.
+  - Consult the HCL to ensure everything is supported
+  - Migrate the physical server to a virtual server
+  - Low-level format the hard drives to ensure there is no old
+  - Make sure the case and the fans are free from dust to ensur

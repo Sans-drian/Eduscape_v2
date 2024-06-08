@@ -6,11 +6,13 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using UnityEngine.Events;
+using Unity.VisualScripting;
 
 public class MainMenuScript : MonoBehaviour
 {   
     [Serializable]
     public class StringEvent : UnityEvent<string> {} //create custom unity event class which can take in a string argument
+    
     public StringEvent setNameString;
     public StringEvent setFileNameString;
     public StringEvent searchQListAndRun;
@@ -21,21 +23,46 @@ public class MainMenuScript : MonoBehaviour
     [SerializeField]
     private TMP_InputField inputFileName;
     [SerializeField]
-    private TextMeshProUGUI debugText;
+    private TextMeshProUGUI debugTextPlayMenu;
     [SerializeField]
     private Button startGameBttn;
     private string errorTxtColor = "#FF6666"; //error texts will have this color
     private string correctTxtColor = "#B0FF58"; //non-error texts will have this color
     private int charLimit = 20;
+
+
+    // Input fields below to get input to build a connection string
+    [SerializeField]
+    private TMP_InputField inputServer;
+    [SerializeField]
+    private TMP_InputField inputDatabase;
+    [SerializeField]
+    private TMP_InputField inputUser;
+    [SerializeField]
+    private TMP_InputField inputPassword;
+    [SerializeField]
+    private TextMeshProUGUI debugTextCSMenu;
+
+    public StringEvent setInputServer;
+    public StringEvent setInputDatabase;
+    public StringEvent setInputUser;
+    public StringEvent setInputPassword;
+    public UnityEvent runConnectionTest;
+    
     
     public DatabaseMethods databaseMethods;
 
     private string input; //input string variable for the input field
 
+
+
+
     // Start is called before the first frame update
     void Start()
     {
-        debugText.text = ""; //set the debug text in the scene to input
+        //set the debug texts in the scene to input
+        debugTextPlayMenu.text = ""; 
+        debugTextCSMenu.text = "";
     }
 
     public void GetInputAndSetQ()
@@ -44,13 +71,13 @@ public class MainMenuScript : MonoBehaviour
         {
             //throw error
             Debug.LogWarning("input user name is over 20 characters, please try again!");
-            debugText.text = $"<color={errorTxtColor}>Player name input is over 20 characters! Please re-enter a new name.</color>";
+            debugTextPlayMenu.text = $"<color={errorTxtColor}>Player name input is over 20 characters! Please re-enter a new name.</color>";
         }
         else if (inputUserName.text == "") //check if the name inputted by user is empty
         {
             //throw error
             Debug.LogWarning("empty input field name, please enter a name.");
-            debugText.text = $"<color={errorTxtColor}>Player name input is empty! Please enter a name.</color>";
+            debugTextPlayMenu.text = $"<color={errorTxtColor}>Player name input is empty! Please enter a name.</color>";
         }
         else //if name inputted is less than 20 characters and not empty
         {
@@ -60,7 +87,7 @@ public class MainMenuScript : MonoBehaviour
 
     public void makeQuestionList()
     {
-        bool currentBoolDTB = databaseMethods.getDatabaseOn();
+        bool currentBoolDTB = DatabaseManager.Instance.isDatabaseOn;
         input = inputFileName.text; //place input from text field
 
         if (currentBoolDTB) //if isDatabaseOn is true (or if its on)
@@ -78,10 +105,45 @@ public class MainMenuScript : MonoBehaviour
     }
 
 
+
+    // ================================================================
+
+
+
+    public void testDatabaseConnection()
+    {
+        setInputServer.Invoke(inputServer.text);
+        setInputDatabase.Invoke(inputDatabase.text);
+        setInputUser.Invoke(inputUser.text);
+        setInputPassword.Invoke(inputPassword.text);
+        
+        runConnectionTest.Invoke();
+    }
+
+    public void displayConnectedMsg()
+    {
+        Debug.Log("Connection string set and found your database!");
+        debugTextCSMenu.text = $"<color={correctTxtColor}>Connection string set and found your database!</color>";
+    }
+
+
+    public void displayNotConnectedMsg()
+    {
+        Debug.LogError("Connection string inputted cannot find a database/server..");
+        debugTextCSMenu.text = $"<color={errorTxtColor}>Connection string inputted cannot find a database/server..</color>";
+    }
+
+
+
+
+    // ================================================================
+
+
+
     public void IfMissingDatabase(string error) //method called when sendErrorDatabase event is invoked (from DatabaseMethods)
     {
         Debug.LogError($"Error code from MySqlException: {error}");
-        debugText.text = $"<color={errorTxtColor}> Error from mySQL: {error} </color>"; //change debug text to display error message
+        debugTextPlayMenu.text = $"<color={errorTxtColor}> Error from mySQL: {error} </color>"; //change debug text to display error message
     }
 
     public void IfMissingFileName() //method called when sendErrorFileName event is invoked (from DatabaseMethods)
@@ -89,12 +151,12 @@ public class MainMenuScript : MonoBehaviour
         if (input == "")
         {
             Debug.LogError("Input field is empty, please enter text.");
-            debugText.text = $"<color={errorTxtColor}>Input field is empty, please enter text.</color>";
+            debugTextPlayMenu.text = $"<color={errorTxtColor}>Input field is empty, please enter text.</color>";
         }
         else
         {
             Debug.LogError($"Error finding the {input}! Please check if fileName is correct!");
-            debugText.text = $"<color={errorTxtColor}>Error finding {input}! Please check if file name inputted is correct!</color>";
+            debugTextPlayMenu.text = $"<color={errorTxtColor}>Error finding {input}! Please check if file name inputted is correct!</color>";
         }
     }
 
@@ -117,19 +179,19 @@ public class MainMenuScript : MonoBehaviour
         TIMER FUNCTION (5 seconds):
         This implementation of the timer countdown is very bad, but works for now, please improve upon it in the future, to whom ever sees this.
         */
-        debugText.text = $"<color={correctTxtColor}>Name and Questions set! Starting game in 5...</color>";
+        debugTextPlayMenu.text = $"<color={correctTxtColor}>Name and Questions set! Starting game in 5...</color>";
         yield return new WaitForSeconds(1);
-        debugText.text = $"<color={correctTxtColor}>Name and Questions set! Starting game in 4...</color>";
+        debugTextPlayMenu.text = $"<color={correctTxtColor}>Name and Questions set! Starting game in 4...</color>";
         yield return new WaitForSeconds(1);
-        debugText.text = $"<color={correctTxtColor}>Name and Questions set! Starting game in 3...</color>";
+        debugTextPlayMenu.text = $"<color={correctTxtColor}>Name and Questions set! Starting game in 3...</color>";
         yield return new WaitForSeconds(1);
-        debugText.text = $"<color={correctTxtColor}>Name and Questions set! Starting game in 2...</color>";
+        debugTextPlayMenu.text = $"<color={correctTxtColor}>Name and Questions set! Starting game in 2...</color>";
         yield return new WaitForSeconds(1);
-        debugText.text = $"<color={correctTxtColor}>Name and Questions set! Starting game in 1...</color>";
+        debugTextPlayMenu.text = $"<color={correctTxtColor}>Name and Questions set! Starting game in 1...</color>";
         yield return new WaitForSeconds(1);
-        debugText.text = $"<color={correctTxtColor}>Name and Questions set! Starting game in 0...</color>";
+        debugTextPlayMenu.text = $"<color={correctTxtColor}>Name and Questions set! Starting game in 0...</color>";
         yield return new WaitForSeconds(1);
-        debugText.text = $"<color={correctTxtColor}>Starting game!</color>";
+        debugTextPlayMenu.text = $"<color={correctTxtColor}>Starting game!</color>";
         yield return new WaitForSeconds(1);
 
         Debug.Log("Changing game scene...");
@@ -137,4 +199,12 @@ public class MainMenuScript : MonoBehaviour
         
     }
 
+
+    // ==================================================================
+
+
+    public void ExitGame() //exits game. This method is only available to be called for the non WebGL build
+    {
+        Application.Quit();
+    }
 }

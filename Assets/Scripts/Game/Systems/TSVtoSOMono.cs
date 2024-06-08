@@ -51,7 +51,7 @@ public class TSVtoSOMono : MonoBehaviour
             AssetDatabase.DeleteAsset(existingAssetPath);
         }
 
-        if (File.Exists(fullPath))
+        if (File.Exists(fullPath)) //check if filepath exists (in turn, checking if the player's input is correct)
         {
             string[] allLines = File.ReadAllLines(fullPath);
 
