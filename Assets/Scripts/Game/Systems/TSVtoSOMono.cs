@@ -45,11 +45,17 @@ public class TSVtoSOMono : MonoBehaviour
 
         // Delete existing assets (if any) before creating new ones
         string assetFolderPath = assetLocation; // Adjust the folder path as needed
-        string[] existingAssetPaths = AssetDatabase.FindAssets("t:Question", new[] { assetFolderPath });
+        string[] existingAssetPaths = AssetDatabase.FindAssets("t:QuestionData", new[] { assetFolderPath });
+        
+        
         foreach (var existingAssetPath in existingAssetPaths)
         {
-            AssetDatabase.DeleteAsset(existingAssetPath);
+            string assetPath = AssetDatabase.GUIDToAssetPath(existingAssetPath);
+            AssetDatabase.DeleteAsset(assetPath);
         }
+        
+        Debug.Log($"check existing asset path: {existingAssetPaths.Length}");
+        AssetDatabase.Refresh();
 
         if (File.Exists(fullPath)) //check if filepath exists (in turn, checking if the player's input is correct)
         {
@@ -80,8 +86,13 @@ public class TSVtoSOMono : MonoBehaviour
                 AssetDatabase.CreateAsset(questionData, $"Assets/Resources/Questions/Question{questionNum}.asset");
             }
 
+            string assetFolderPathw = assetLocation; // Adjust the folder path as needed
+            string[] existingAssetPaths2 = AssetDatabase.FindAssets("t:QuestionData", new[] { assetFolderPathw });
+            Debug.Log($"check existing asset path: {existingAssetPaths2.Length}");
+
             questionFound = true;
             AssetDatabase.SaveAssets();
+            AssetDatabase.Refresh();
         }
         else
         {

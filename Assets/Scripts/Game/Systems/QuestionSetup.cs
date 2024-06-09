@@ -56,7 +56,7 @@ public class QuestionSetup : MonoBehaviour
         GetQuestionAssets();
         InitializeButtonBoolArrays();
         Debug.Log($"original question list count from QuestionSetup script is {questions.Count}");
-        Debug.Log($"I ran properly.");
+        //Debug.Log($"I ran properly.");
         questionsCount = questions.Count;
         //Debug.Log($"questionsCount int set from original question list from QuestionSetup script is {questionsCount}");
 
@@ -162,8 +162,11 @@ public class QuestionSetup : MonoBehaviour
 
     public void GetQuestionAssets()
     {
+        questions.Clear();
+        Debug.Log($"question count after clear: {questions.Count}");
         //Get all questions from question folder
         questions = new List<QuestionData>(Resources.LoadAll<QuestionData>("Questions"));
+        Debug.Log($"question count after loadall method: {questions.Count}");
 
         //Debug.Log($"question assets list before shuffle: {string.Join(", ", questions)}"); //Debugging: show list before shuffle
         ShuffleList(questions);

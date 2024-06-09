@@ -221,14 +221,19 @@ public class DatabaseMethods : MonoBehaviour
     {
         // Create a new list to store the retrieved data
         List<QuestionData> databaseRows = new List<QuestionData>();
-
         // Delete existing assets (if any) before creating new ones
         string assetFolderPath = assetLocation; // Adjust the folder path as needed
-        string[] existingAssetPaths = AssetDatabase.FindAssets("t:Question", new[] { assetFolderPath });
+        string[] existingAssetPaths = AssetDatabase.FindAssets("t:QuestionData", new[] { assetFolderPath });
+        
+        
         foreach (var existingAssetPath in existingAssetPaths)
         {
-            AssetDatabase.DeleteAsset(existingAssetPath);
+            string assetPath = AssetDatabase.GUIDToAssetPath(existingAssetPath);
+            AssetDatabase.DeleteAsset(assetPath);
         }
+        
+        Debug.Log($"check existing asset path: {existingAssetPaths.Length}");
+        AssetDatabase.Refresh();
 
         // Retrieve data from the database
         databaseRows = GetQuestionDataFromDatabase(fileName);
