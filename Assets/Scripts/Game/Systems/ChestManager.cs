@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class ChestManager : MonoBehaviour
 {
@@ -14,6 +15,8 @@ public class ChestManager : MonoBehaviour
     public bool isInteractingChest;
     public PlayerMovement playerMovement;
     public PauseMenu pauseMenu;
+
+    public UnityEvent isAnsweredMsg;
 
     void Awake()
     {
@@ -37,6 +40,7 @@ public class ChestManager : MonoBehaviour
     {
         clickedObjectIndex = chests.IndexOf(obj);
 
+        /* DEBUGGING CODE BELOW
         if (clickedObjectIndex != -1)
         {
             Debug.Log($"Clicked object (parent) is at index {clickedObjectIndex}");
@@ -45,6 +49,7 @@ public class ChestManager : MonoBehaviour
         {
             Debug.LogError("Object not found in the list.");
         }
+        */
     }
 
 
@@ -57,7 +62,7 @@ public class ChestManager : MonoBehaviour
         {    
             if (!chest.isAnswered) //if the chest is not answered
             {
-                Debug.Log("Chest is not answered");
+                //Debug.Log("Chest is not answered");
 
                 if (!isInteractingChest) 
                 {
@@ -78,7 +83,8 @@ public class ChestManager : MonoBehaviour
             }
             else
             {
-                Debug.Log("Chest is already answered");
+                //Debug.Log("Chest is already answered");
+                isAnsweredMsg.Invoke();
             }
         }
         else

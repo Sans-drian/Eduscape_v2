@@ -8,12 +8,9 @@ public class Interactable : MonoBehaviour
     public bool isInRange;
     public KeyCode interactKey;
     public UnityEvent interactAction;
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
+    public UnityEvent NotifyPlayer;
+    public UnityEvent DeNotifyPlayer;
+    
     // Update is called once per frame
     void Update()
     {
@@ -31,6 +28,7 @@ public class Interactable : MonoBehaviour
         {
             isInRange = true;
             Debug.Log("Player is now in range");
+            NotifyPlayer.Invoke();
         }
     }
 
@@ -39,6 +37,7 @@ public class Interactable : MonoBehaviour
         {
             isInRange = false;
             Debug.Log("Player is now not in range");
+            DeNotifyPlayer.Invoke();
         }
     }
 }

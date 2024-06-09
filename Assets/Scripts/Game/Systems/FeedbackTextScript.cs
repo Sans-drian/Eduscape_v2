@@ -9,22 +9,31 @@ public class FeedbackTextScript : MonoBehaviour
     private TextMeshProUGUI feedbackTxt;
     [SerializeField]
     private GameObject feedbackTxtObj;
+
+    [SerializeField]
+    private TextMeshProUGUI isAnsweredFeedbackText;
+    [SerializeField]
+    private GameObject isAnsweredFeedbackObj;
+
     [SerializeField]
     private Timer timer;
     private float timeDecreaseNum;
     private Coroutine displayCoroutine;
+    private Coroutine isAnsweredCoroutine;
 
     private string penaltyTime;
 
     private string wrongTxtColor = "#FF6666"; //wrong answer text will have this color
     private string correctTxtColor = "#B0FF58"; //correct answer text will have this color
+    private string blueTxtColor = "#40C3BF"; //custom blue text color
 
     void Awake()
     {
         timer = FindObjectOfType<Timer>();
         timeDecreaseNum = timer.getTimeDecrease();
 
-        setRewardText();
+        setPenaltyText();
+        //Debug.Log($"Penalty time: {penaltyTime}");
     }
 
     public void callDisplayCorrectTxt()
@@ -39,6 +48,9 @@ public class FeedbackTextScript : MonoBehaviour
 
     private IEnumerator displayCorrectTxt(float duration)
     {
+        //Debug.Log("Displaying correct feedback");
+        feedbackTxtObj.SetActive(false);
+        yield return new WaitForSeconds(.1f);
         feedbackTxtObj.SetActive(true);
         feedbackTxt.text = $"<color={correctTxtColor}>Correct! +1 Key</color>";
         yield return new WaitForSeconds(duration);
@@ -57,13 +69,16 @@ public class FeedbackTextScript : MonoBehaviour
 
     private IEnumerator displayWrongTxt(float duration)
     {
+        //Debug.Log("Displaying wrong feedback");
+        feedbackTxtObj.SetActive(false);
+        yield return new WaitForSeconds(.1f);
         feedbackTxtObj.SetActive(true);
         feedbackTxt.text = $"<color={wrongTxtColor}>Wrong! -{penaltyTime}</color>";
         yield return new WaitForSeconds(duration);
         feedbackTxtObj.SetActive(false);
     }
 
-    private void setRewardText()
+    private void setPenaltyText()
     {
         bool secondsExist = checkSecondsExists();
 
@@ -96,4 +111,24 @@ public class FeedbackTextScript : MonoBehaviour
         return seconds != 0;
     }
 
+
+    public void callDisplayIsAnswwered()
+    {
+        if (isAnsweredCoroutine != null)
+        {
+            StopCoroutine(isAnsweredCoroutine);
+        }
+
+        isAnsweredCoroutine = StartCoroutine(displayIsAnswered(4f));
+    }
+
+    private IEnumerator displayIsAnswered(float duration)
+    {
+        isAnsweredFeedbackObj.SetActive(false);
+        yield return new WaitForSeconds(.1f);
+        isAnsweredFeedbackObj.SetActive(true);
+        isAnsweredFeedbackText.text = $"<color={blueTxtColor}>This chest is already answered!</color>";
+        yield return new WaitForSeconds(duration);
+        isAnsweredFeedbackObj.SetActive(false);
+    }
 }
