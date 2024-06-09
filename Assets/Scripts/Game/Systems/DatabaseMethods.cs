@@ -224,13 +224,12 @@ public class DatabaseMethods : MonoBehaviour
         // Delete existing assets (if any) before creating new ones
         string assetFolderPath = assetLocation; // Adjust the folder path as needed
         string[] existingAssetPaths = AssetDatabase.FindAssets("t:QuestionData", new[] { assetFolderPath });
-        
-        
         foreach (var existingAssetPath in existingAssetPaths)
         {
             string assetPath = AssetDatabase.GUIDToAssetPath(existingAssetPath);
             AssetDatabase.DeleteAsset(assetPath);
         }
+        
         
         Debug.Log($"check existing asset path: {existingAssetPaths.Length}");
         AssetDatabase.Refresh();

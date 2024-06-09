@@ -9,6 +9,8 @@ public class PauseMenu : MonoBehaviour
     [SerializeField]
     private GameObject pauseMenu;
     [SerializeField]
+    private GameObject UIObject;
+    [SerializeField]
     private PlayerMovement playerMovement;
 
     void Update()
@@ -24,6 +26,7 @@ public class PauseMenu : MonoBehaviour
         if(!isPaused)
         {
             isPaused = true;
+            UIObject.SetActive(false);
             pauseMenu.SetActive(true);
 
             playerMovement.GetComponent<PlayerMovement>().canMove = false;            
@@ -31,6 +34,7 @@ public class PauseMenu : MonoBehaviour
         else if(isPaused)
         {
             isPaused = false;
+            UIObject.SetActive(true);
             pauseMenu.SetActive(false);
             
             playerMovement.GetComponent<PlayerMovement>().canMove = true;
