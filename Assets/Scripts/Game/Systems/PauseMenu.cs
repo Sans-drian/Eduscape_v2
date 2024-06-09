@@ -6,10 +6,20 @@ using UnityEngine.SceneManagement;
 public class PauseMenu : MonoBehaviour
 {
     public bool isPaused;
+    public bool isHTPMenuOn;
+    public bool isConfirmExitOn;
     [SerializeField]
-    private GameObject pauseMenu;
+    private GameObject pauseMenuObj;
+    [SerializeField]
+    private GameObject mainPauseMenuObj; 
     [SerializeField]
     private GameObject UIObject;
+    [SerializeField]
+    private GameObject howToPlayMenuObj;
+    [SerializeField]
+    private GameObject confirmExitMenuObj; 
+
+
     [SerializeField]
     private PlayerMovement playerMovement;
 
@@ -23,26 +33,72 @@ public class PauseMenu : MonoBehaviour
 
     public void openPauseMenu() //simple open pause menu method
     {
-        if(!isPaused)
+        if (!isHTPMenuOn || !isConfirmExitOn) //if how to play menu isnt on
         {
-            isPaused = true;
-            UIObject.SetActive(false);
-            pauseMenu.SetActive(true);
+            if(!isPaused) //if it's not paused
+            {
+                isPaused = true;
+                UIObject.SetActive(false);
+                pauseMenuObj.SetActive(true);
 
-            playerMovement.GetComponent<PlayerMovement>().canMove = false;            
+                playerMovement.GetComponent<PlayerMovement>().canMove = false;            
+            }
+            else if(isPaused)//if it is paused
+            {
+                isPaused = false;
+                UIObject.SetActive(true);
+                pauseMenuObj.SetActive(false);
+                
+                playerMovement.GetComponent<PlayerMovement>().canMove = true;
+            }
         }
-        else if(isPaused)
+        else if (isHTPMenuOn && !isConfirmExitOn)//if the how to play menu is on
         {
-            isPaused = false;
-            UIObject.SetActive(true);
-            pauseMenu.SetActive(false);
-            
-            playerMovement.GetComponent<PlayerMovement>().canMove = true;
+            howToPlayMenuToggle();
         }
+        else if (isConfirmExitOn && !isHTPMenuOn) // if the confirm to exit menu is on
+        {
+            confirmExitMenuToggle();
+        }
+
     }
 
     public void goToMainMenu()
     {
         SceneManager.LoadScene("MainMenu");
+    }
+
+    public void howToPlayMenuToggle()
+    {
+        if(!isHTPMenuOn)
+        {
+            isHTPMenuOn = true;
+            mainPauseMenuObj.SetActive(false);
+            howToPlayMenuObj.SetActive(true);
+        }
+        else
+        {
+            isHTPMenuOn = false;
+            howToPlayMenuObj.SetActive(false);
+            mainPauseMenuObj.SetActive(true);
+        }
+
+    }
+
+    public void confirmExitMenuToggle()
+    {
+        if(!isConfirmExitOn)
+        {
+            isConfirmExitOn = true;
+            mainPauseMenuObj.SetActive(false);
+            confirmExitMenuObj.SetActive(true);
+        }
+        else
+        {
+            isConfirmExitOn = false;
+            confirmExitMenuObj.SetActive(false);
+            mainPauseMenuObj.SetActive(true);
+        }
+
     }
 }

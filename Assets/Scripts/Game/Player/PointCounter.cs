@@ -34,6 +34,8 @@ public class PointCounter : MonoBehaviour
 
     public GameObject escapeButton;
     public GameObject escapeErrorText;
+    [SerializeField]
+    private QuestionSetup questionSetup;
 
     void Awake()
     {
@@ -42,7 +44,7 @@ public class PointCounter : MonoBehaviour
 
     void Start()
     {
-        pointText.text = currentKeys.ToString();
+        pointText.text = currentKeys.ToString() + $"/{questionSetup.questionsCount}";
     }
 
     void Update()
@@ -56,7 +58,7 @@ public class PointCounter : MonoBehaviour
     public void increasePoints(int v)
     {
         currentKeys += v;
-        pointText.text = currentKeys.ToString();
+        pointText.text = currentKeys.ToString() + $"/{questionSetup.questionsCount}";
     }
 
     //set the color of the escape button and remove 'not enough points' text

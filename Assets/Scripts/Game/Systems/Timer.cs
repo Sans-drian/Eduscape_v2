@@ -14,6 +14,8 @@ public class Timer : MonoBehaviour
 
     [SerializeField]
     TextMeshProUGUI timerText;
+    [SerializeField]
+    TextMeshProUGUI pauseMenuTimerText;
 
     [SerializeField]
     float remainingTime;
@@ -47,6 +49,7 @@ public class Timer : MonoBehaviour
         int minutes = Mathf.FloorToInt(remainingTime / 60);
         int seconds = Mathf.FloorToInt(remainingTime % 60);
         timerText.text = string.Format("{0:00}:{1:00}", minutes, seconds);
+        pauseMenuTimerText.text = string.Format("{0:00}:{1:00}", minutes, seconds);
     }
 
     public void decreaseTime() //function to decrease the time by a certain amount (for when player presses incorrect answer)
