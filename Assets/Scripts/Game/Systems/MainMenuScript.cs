@@ -28,6 +28,14 @@ public class MainMenuScript : MonoBehaviour
     private TextMeshProUGUI debugTextPlayMenu;
     [SerializeField]
     private Button startGameBttn;
+    [SerializeField]
+    private Button clearUserNameInputButton;
+    [SerializeField]
+    private Button clearFileNameInputButton;
+    [SerializeField]
+    private Button clearAllInputButton;
+    [SerializeField]
+    private Button backButton;
     
 
     private string errorTxtColor = "#FF6666"; //error texts will have this color
@@ -66,6 +74,8 @@ public class MainMenuScript : MonoBehaviour
     {
         //set the debug texts in the scene to input
         debugTextPlayMenu.text = ""; 
+        questionSetFromText.text = "";
+
         debugTextCSMenu.text = "";
     }
 
@@ -186,23 +196,25 @@ public class MainMenuScript : MonoBehaviour
     {
         Debug.Log("runGame method has been reached!");
         setPlayerPrefsInfo.Invoke();
-        startGameBttn.interactable = false; //disable interaction for the button
+        string tempFileNameVar = inputFileName.text;
+
+        disableButtonsPlayMenu();
 
         /*
         TIMER FUNCTION (5 seconds):
         This implementation of the timer countdown is very bad, but works for now, please improve upon it in the future, to whom ever sees this.
         */
-        debugTextPlayMenu.text = $"<color={correctTxtColor}>Name and Questions set! Starting game in 5...</color>";
+        debugTextPlayMenu.text = $"<color={correctTxtColor}>Name and Questions from {tempFileNameVar} are set! Starting game in 5...</color>";
         yield return new WaitForSeconds(1);
-        debugTextPlayMenu.text = $"<color={correctTxtColor}>Name and Questions set! Starting game in 4...</color>";
+        debugTextPlayMenu.text = $"<color={correctTxtColor}>Name and Questions from {tempFileNameVar} are set! Starting game in 4...</color>";
         yield return new WaitForSeconds(1);
-        debugTextPlayMenu.text = $"<color={correctTxtColor}>Name and Questions set! Starting game in 3...</color>";
+        debugTextPlayMenu.text = $"<color={correctTxtColor}>Name and Questions from {tempFileNameVar} are set! Starting game in 3...</color>";
         yield return new WaitForSeconds(1);
-        debugTextPlayMenu.text = $"<color={correctTxtColor}>Name and Questions set! Starting game in 2...</color>";
+        debugTextPlayMenu.text = $"<color={correctTxtColor}>Name and Questions from {tempFileNameVar} are set! Starting game in 2...</color>";
         yield return new WaitForSeconds(1);
-        debugTextPlayMenu.text = $"<color={correctTxtColor}>Name and Questions set! Starting game in 1...</color>";
+        debugTextPlayMenu.text = $"<color={correctTxtColor}>Name and Questions from {tempFileNameVar} are set! Starting game in 1...</color>";
         yield return new WaitForSeconds(1);
-        debugTextPlayMenu.text = $"<color={correctTxtColor}>Name and Questions set! Starting game in 0...</color>";
+        debugTextPlayMenu.text = $"<color={correctTxtColor}>Name and Questions from {tempFileNameVar} are set! Starting game in 0...</color>";
         yield return new WaitForSeconds(1);
         debugTextPlayMenu.text = $"<color={correctTxtColor}>Starting game!</color>";
         yield return new WaitForSeconds(1);
@@ -210,6 +222,15 @@ public class MainMenuScript : MonoBehaviour
         Debug.Log("Changing game scene...");
         SceneManager.LoadScene("Game"); // change scene to game
         
+    }
+
+    private void disableButtonsPlayMenu() //method to disable interaction for buttons in play menu
+    {
+        startGameBttn.interactable = false; 
+        clearUserNameInputButton.interactable = false;
+        clearFileNameInputButton.interactable = false;
+        clearAllInputButton.interactable = false;
+        backButton.interactable = false;
     }
 
 
@@ -227,9 +248,11 @@ public class MainMenuScript : MonoBehaviour
     public void ClearTextsPlayMenu()
     {
         debugTextPlayMenu.text = "";
+        questionSetFromText.text = "";
+
         inputUserName.text = "";
         inputFileName.text = "";
-        Debug.Log("Input fields and Debug Text of Play menu is cleared!");
+        Debug.Log("Input fields and other texts of Play menu is cleared!");
     }
 
     //Clear methods below are for the clear buttons

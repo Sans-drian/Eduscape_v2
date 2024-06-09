@@ -8957,7 +8957,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1941587276
 RectTransform:
   m_ObjectHideFlags: 0
@@ -9316,8 +9316,13 @@ MonoBehaviour:
         m_CallState: 2
   inputUserName: {fileID: 162056117}
   inputFileName: {fileID: 1518931192}
+  questionSetFromText: {fileID: 21439402}
   debugTextPlayMenu: {fileID: 1824829527}
   startGameBttn: {fileID: 762612265}
+  clearUserNameInputButton: {fileID: 1550723418}
+  clearFileNameInputButton: {fileID: 1529581976}
+  clearAllInputButton: {fileID: 1798062649}
+  backButton: {fileID: 246738862}
   inputServer: {fileID: 1645156649}
   inputDatabase: {fileID: 190962774}
   inputUser: {fileID: 1267268198}
@@ -9752,7 +9757,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &2061200678
 RectTransform:
   m_ObjectHideFlags: 0
