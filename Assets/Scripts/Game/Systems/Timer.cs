@@ -24,8 +24,7 @@ public class Timer : MonoBehaviour
     float elapsedTime;
     private string elapsedTimeText;
 
-    [SerializeField]
-    float timeDecrease;
+    public float timeDecrease;
     
     void Start()
     {
@@ -34,6 +33,17 @@ public class Timer : MonoBehaviour
 
     // Update is called once per frame
     void Update()
+    {
+        CountdownMethod();
+        changeTimerColor();
+
+        int minutes = Mathf.FloorToInt(remainingTime / 60);
+        int seconds = Mathf.FloorToInt(remainingTime % 60);
+        timerText.text = string.Format("{0:00}:{1:00}", minutes, seconds);
+        pauseMenuTimerText.text = string.Format("{0:00}:{1:00}", minutes, seconds);
+    }
+
+    private void CountdownMethod()
     {
         if (remainingTime > 0) //if timer is above 0
         {
@@ -45,11 +55,20 @@ public class Timer : MonoBehaviour
             Debug.Log("Time's UP!");
             remainingTime = 0;
         }
+    }
 
-        int minutes = Mathf.FloorToInt(remainingTime / 60);
-        int seconds = Mathf.FloorToInt(remainingTime % 60);
-        timerText.text = string.Format("{0:00}:{1:00}", minutes, seconds);
-        pauseMenuTimerText.text = string.Format("{0:00}:{1:00}", minutes, seconds);
+    private void changeTimerColor()
+    {
+        if (remainingTime < 60) //if timer is less than 1 minute
+        {
+            timerText.color = Color.red;
+            pauseMenuTimerText.color = Color.red;
+        }
+    }
+
+    public float getTimeDecrease()
+    {
+        return timeDecrease;
     }
 
     public void decreaseTime() //function to decrease the time by a certain amount (for when player presses incorrect answer)

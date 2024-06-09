@@ -289,7 +289,7 @@ RectTransform:
   m_GameObject: {fileID: 86720394}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.82, y: 0.82, z: 0.82}
+  m_LocalScale: {x: 0.73, y: 0.73, z: 0.73}
   m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 333533464}
@@ -301,7 +301,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: -97.2}
+  m_AnchoredPosition: {x: 0, y: -51}
   m_SizeDelta: {x: 0, y: -68.399994}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &86720396
@@ -1366,7 +1366,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &251456682
 RectTransform:
   m_ObjectHideFlags: 0
@@ -4097,7 +4097,7 @@ MonoBehaviour:
   timerText: {fileID: 718450981}
   pauseMenuTimerText: {fileID: 592781916}
   remainingTime: 300
-  timeDecrease: 10
+  timeDecrease: 60
 --- !u!114 &995523107
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4115,6 +4115,7 @@ MonoBehaviour:
   QuestionIndex: 0
   buttonID: 0
   calculateAnsAcc: {fileID: 995523108}
+  rewardText: {fileID: 999428179}
   questionText: {fileID: 333533465}
   categoryText: {fileID: 1216710678}
   answerButtons:
@@ -4124,6 +4125,7 @@ MonoBehaviour:
   - {fileID: 1483463631}
   chestList: {fileID: 0}
   correctAnswerChoice: 0
+  timer: {fileID: 0}
 --- !u!114 &995523108
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4206,7 +4208,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   feedbackTxt: {fileID: 251456683}
   feedbackTxtObj: {fileID: 251456681}
-  isCoroutineRunning: 0
 --- !u!114 &995523113
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4285,7 +4286,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'Correct Answer: +1 Key - Wrong Answer: -3 minutes'
+  m_text: REWARDTEXT
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -6572,7 +6573,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5330565128926627573, guid: f66c2b3e56a89b949b7e6e4ca60929c9, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -77.451
+      value: -77.4375
       objectReference: {fileID: 0}
     - target: {fileID: 5330565128926627573, guid: f66c2b3e56a89b949b7e6e4ca60929c9, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -9649,7 +9650,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &2075143355
 RectTransform:
   m_ObjectHideFlags: 0
@@ -10021,7 +10022,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5330565128926627573, guid: f66c2b3e56a89b949b7e6e4ca60929c9, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -77.451
+      value: -77.4375
       objectReference: {fileID: 0}
     - target: {fileID: 5330565128926627573, guid: f66c2b3e56a89b949b7e6e4ca60929c9, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x

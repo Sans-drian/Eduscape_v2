@@ -19,6 +19,9 @@ public class QuestionSetup : MonoBehaviour
 
     public CalculateAnsAcc calculateAnsAcc;
 
+
+    [SerializeField]
+    private TextMeshProUGUI rewardText; 
     [SerializeField]
     private TextMeshProUGUI questionText; 
     [SerializeField]
@@ -36,12 +39,32 @@ public class QuestionSetup : MonoBehaviour
     [SerializeField]
     private int correctAnswerChoice; //keeps track which is correct answer
 
+    [SerializeField]
+    private Timer timer;
+    private float timeDecreaseNum;
+
     void Awake() 
     {
         chestList = FindObjectOfType<ChestManager>(); 
+        timer = FindObjectOfType<Timer>();
+        timeDecreaseNum = timer.getTimeDecrease();
+
+        setRewardText();
+
+       //Get all questions ready
+        GetQuestionAssets();
+        InitializeButtonBoolArrays();
+        Debug.Log($"original question list count from QuestionSetup script is {questions.Count}");
+        questionsCount = questions.Count;
+        //Debug.Log($"questionsCount int set from original question list from QuestionSetup script is {questionsCount}");
+
+
+
+        // ======================= BLOCKS OF COMMENTED OUT CODE BELOW ARE USED FOR DEBUGGING PURPOSES ===================================
 
         //calculateAnsAcc = FindObjectOfType<CalculateAnsAcc>();
         
+        /*
         if (calculateAnsAcc != null)
         {
             Debug.Log("calculateAnsAcc is not null");
@@ -50,16 +73,9 @@ public class QuestionSetup : MonoBehaviour
         {
             Debug.LogError("calculateAnsAcc is null");
         }
+        */
 
-
-        //Get all questions ready
-        GetQuestionAssets();
-        InitializeButtonBoolArrays();
-        Debug.Log($"original question list count from QuestionSetup script is {questions.Count}");
-        //Debug.Log($"I ran properly.");
-        questionsCount = questions.Count;
-        //Debug.Log($"questionsCount int set from original question list from QuestionSetup script is {questionsCount}");
-
+        /*
         foreach (var kvp in buttonStates) //prints out all of the key value pairs of buttonStates
         {
             int arrayNameTest = kvp.Key;
@@ -67,6 +83,40 @@ public class QuestionSetup : MonoBehaviour
 
             //Debug.Log($"Array '{arrayNameTest}': {string.Join(", ", arrayTest)}");
         }
+        */
+    }
+
+    private void setRewardText()
+    {
+        bool secondsExist = checkSecondsExists();
+
+        int minutes = Mathf.FloorToInt(timeDecreaseNum / 60);
+        int seconds = Mathf.FloorToInt(timeDecreaseNum % 60);
+
+        string timeText;
+        if (minutes > 0) // if timeDecreaseNum is greater than 60 seconds
+        {
+            // display minutes (while also checking to use singular or plural)
+            timeText = $"{minutes} minute{(minutes != 1 ? "s" : "")}";
+            
+            if (secondsExist) //if seconds exist, then append seconds text
+            {
+                timeText += $" and {seconds} second{(seconds != 1 ? "s" : "")}";
+            }
+        }
+        else // if timeDecreaseNum is less than 60 seconds
+        {
+            // display seconds (while also checking to use singular or plural)
+            timeText = $"{seconds} second{(seconds != 1 ? "s" : "")}";
+        }
+            
+        rewardText.text = $"Correct Answer: +1 Key - Wrong Answer: -{timeText}";
+    }
+
+    private bool checkSecondsExists() //method to check whether seconds exist or not in the time inputted (used for formatting the text, to either use or not use "second(s)")
+    {
+        int seconds = Mathf.FloorToInt(timeDecreaseNum % 60);
+        return seconds != 0;
     }
 
 

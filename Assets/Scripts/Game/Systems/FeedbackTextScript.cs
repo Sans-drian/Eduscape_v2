@@ -9,69 +9,91 @@ public class FeedbackTextScript : MonoBehaviour
     private TextMeshProUGUI feedbackTxt;
     [SerializeField]
     private GameObject feedbackTxtObj;
-
     [SerializeField]
-    private bool isCoroutineRunning = false;
+    private Timer timer;
+    private float timeDecreaseNum;
+    private Coroutine displayCoroutine;
+
+    private string penaltyTime;
 
     private string wrongTxtColor = "#FF6666"; //wrong answer text will have this color
     private string correctTxtColor = "#B0FF58"; //correct answer text will have this color
 
-    /*
-
-    NOTE:
-    The methods below, callDisplayCorrectTxt and callDisplayWrongTxt and the extra methods called inside work but are buggy if the player calls the method
-    multiple times, a.k.a., if the player presses the answer button multiple times while the coroutine is still running (or if the feedback text is still
-    set to active).
-
-    I will leave it up to future developers of Eduscape to fix and implement this function properly. Thank you.
-
-    */
-    public void callDisplayCorrectTxt()
+    void Awake()
     {
-        if (!isCoroutineRunning) 
-        {
-            StartCoroutine(displayCorrectTxt());
-            isCoroutineRunning = true;
-        }
-        else
-        {
-            StopCoroutine(displayCorrectTxt());
-            StartCoroutine(displayCorrectTxt());
-            isCoroutineRunning = true;
-        }
+        timer = FindObjectOfType<Timer>();
+        timeDecreaseNum = timer.getTimeDecrease();
+
+        setRewardText();
     }
 
-    private IEnumerator displayCorrectTxt()
+    public void callDisplayCorrectTxt()
+    {
+        if (displayCoroutine != null)
+        {
+            StopCoroutine(displayCoroutine);
+        }
+
+        displayCoroutine = StartCoroutine(displayCorrectTxt(4f));
+    }
+
+    private IEnumerator displayCorrectTxt(float duration)
     {
         feedbackTxtObj.SetActive(true);
         feedbackTxt.text = $"<color={correctTxtColor}>Correct! +1 Key</color>";
-        yield return new WaitForSeconds(4);
+        yield return new WaitForSeconds(duration);
         feedbackTxtObj.SetActive(false);
-        isCoroutineRunning = false;
     }
 
     public void callDisplayWrongTxt()
     {
-        if (!isCoroutineRunning) 
+        if (displayCoroutine != null)
         {
-            StartCoroutine(displayWrongTxt());
-            isCoroutineRunning = true;
+            StopCoroutine(displayCoroutine);
         }
-        else
-        {
-            StopCoroutine(displayWrongTxt());
-            StartCoroutine(displayWrongTxt());
-            isCoroutineRunning = true;
-        }
+
+        displayCoroutine = StartCoroutine(displayWrongTxt(3f));
     }
 
-    private IEnumerator displayWrongTxt()
+    private IEnumerator displayWrongTxt(float duration)
     {
         feedbackTxtObj.SetActive(true);
-        feedbackTxt.text = $"<color={wrongTxtColor}>Wrong! -10 seconds</color>";
-        yield return new WaitForSeconds(3);
+        feedbackTxt.text = $"<color={wrongTxtColor}>Wrong! -{penaltyTime}</color>";
+        yield return new WaitForSeconds(duration);
         feedbackTxtObj.SetActive(false);
-        isCoroutineRunning = false;
+    }
+
+    private void setRewardText()
+    {
+        bool secondsExist = checkSecondsExists();
+
+        int minutes = Mathf.FloorToInt(timeDecreaseNum / 60);
+        int seconds = Mathf.FloorToInt(timeDecreaseNum % 60);
+
+        string timeText;
+        if (minutes > 0) // if timeDecreaseNum is greater than 60 seconds
+        {
+            // display minutes (while also checking to use singular or plural)
+            timeText = $"{minutes} minute{(minutes != 1 ? "s" : "")}";
+            
+            if (secondsExist) //if seconds exist, then append seconds text
+            {
+                timeText += $" and {seconds} second{(seconds != 1 ? "s" : "")}";
+            }
+        }
+        else // if timeDecreaseNum is less than 60 seconds
+        {
+            // display seconds (while also checking to use singular or plural)
+            timeText = $"{seconds} second{(seconds != 1 ? "s" : "")}";
+        }
+            
+        penaltyTime = $"{timeText}";
+    }
+
+    private bool checkSecondsExists() //method to check whether seconds exist or not in the time inputted (used for formatting the text, to either use or not use "second(s)")
+    {
+        int seconds = Mathf.FloorToInt(timeDecreaseNum % 60);
+        return seconds != 0;
     }
 
 }
