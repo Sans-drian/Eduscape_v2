@@ -23,9 +23,13 @@ public class MainMenuScript : MonoBehaviour
     [SerializeField]
     private TMP_InputField inputFileName;
     [SerializeField]
+    private TextMeshProUGUI questionSetFromText;
+    [SerializeField]
     private TextMeshProUGUI debugTextPlayMenu;
     [SerializeField]
     private Button startGameBttn;
+    
+
     private string errorTxtColor = "#FF6666"; //error texts will have this color
     private string correctTxtColor = "#B0FF58"; //non-error texts will have this color
     private int charLimit = 20;
@@ -165,7 +169,16 @@ public class MainMenuScript : MonoBehaviour
         //invoke the events and passes in the corresponding string arguments
         setNameString.Invoke(inputUserName.text);
         setFileNameString.Invoke(inputFileName.text);
-
+        
+        if (DatabaseManager.Instance.isDatabaseOn)
+        {
+            questionSetFromText.text = $"<color={correctTxtColor}>Questions set from Database!</color>";
+        }
+        else
+        {
+            questionSetFromText.text = $"<color={correctTxtColor}>Questions set from existing game files!</color>";
+        }
+        
         StartCoroutine (runGame());
     }
 
