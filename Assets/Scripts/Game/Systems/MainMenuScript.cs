@@ -207,4 +207,61 @@ public class MainMenuScript : MonoBehaviour
     {
         Application.Quit();
     }
+
+
+    // =================================================================
+
+    public void ClearTextsPlayMenu()
+    {
+        debugTextPlayMenu.text = "";
+        inputUserName.text = "";
+        inputFileName.text = "";
+        Debug.Log("Input fields and Debug Text of Play menu is cleared!");
+
+    }
+
+
+    // =================================================================
+
+
+
+    public void ClearTextsCSMenu()
+    {
+        debugTextCSMenu.text = "";
+        inputServer.text = "";
+        inputDatabase.text = "";
+        inputUser.text = "";
+        inputPassword.text = "";
+
+        Debug.Log("Input fields and Debug Text of Connection String menu is cleared!");
+    }
+
+    //Clear methods below are for the clear buttons
+    public void ClearServerInput()
+    {
+        inputServer.text = "";
+    }
+
+    public void ClearDatabaseInput()
+    {
+        inputDatabase.text = "";
+    }
+
+    public void ClearUserInput()
+    {
+        inputUser.text = "";
+    }
+
+    public void ClearPasswordInput()
+    {
+        inputPassword.text = "";
+    }
+
+    public void ClearAllInputCSMenu()
+    {
+        inputServer.text = "";
+        inputDatabase.text = "";
+        inputUser.text = "";
+        inputPassword.text = "";
+    }
 }

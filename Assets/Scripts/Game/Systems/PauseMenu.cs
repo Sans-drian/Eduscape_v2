@@ -33,7 +33,7 @@ public class PauseMenu : MonoBehaviour
 
     public void openPauseMenu() //simple open pause menu method
     {
-        if (!isHTPMenuOn || !isConfirmExitOn) //if how to play menu isnt on
+        if (!isHTPMenuOn && !isConfirmExitOn) //if how to play menu and confirm to exit menu isnt on 
         {
             if(!isPaused) //if it's not paused
             {
@@ -52,11 +52,11 @@ public class PauseMenu : MonoBehaviour
                 playerMovement.GetComponent<PlayerMovement>().canMove = true;
             }
         }
-        else if (isHTPMenuOn && !isConfirmExitOn)//if the how to play menu is on
+        else if (isHTPMenuOn && !isConfirmExitOn)//if the how to play menu is on and confirm to exit menu is off
         {
             howToPlayMenuToggle();
         }
-        else if (isConfirmExitOn && !isHTPMenuOn) // if the confirm to exit menu is on
+        else if (isConfirmExitOn && !isHTPMenuOn) // if the confirm to exit menu is on and how to play menu is off
         {
             confirmExitMenuToggle();
         }
