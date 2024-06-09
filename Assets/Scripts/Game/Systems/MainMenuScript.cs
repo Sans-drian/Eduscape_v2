@@ -130,7 +130,7 @@ public class MainMenuScript : MonoBehaviour
     public void displayNotConnectedMsg()
     {
         Debug.LogError("Connection string inputted cannot find a database/server..");
-        debugTextCSMenu.text = $"<color={errorTxtColor}>Connection string inputted cannot find a database/server..</color>";
+        debugTextCSMenu.text = $"<color={errorTxtColor}>Connection string inputted cannot connect to a database/server.. Game will not use take from or set to database.</color>";
     }
 
 
@@ -209,7 +209,7 @@ public class MainMenuScript : MonoBehaviour
     }
 
 
-    // =================================================================
+    // PLAY MENU CLEAR BUTTON METHODS =================================================================
 
     public void ClearTextsPlayMenu()
     {
@@ -217,11 +217,29 @@ public class MainMenuScript : MonoBehaviour
         inputUserName.text = "";
         inputFileName.text = "";
         Debug.Log("Input fields and Debug Text of Play menu is cleared!");
+    }
 
+    //Clear methods below are for the clear buttons
+    public void ClearUserNameInput()
+    {
+        inputUserName.text = "";
+    }
+
+    public void ClearFileNameInput()
+    {
+        inputFileName.text = "";
+    }
+
+    public void ClearAllInputPlayMenu()
+    {
+        inputUserName.text = "";
+        inputFileName.text = "";
     }
 
 
-    // =================================================================
+
+
+    // CONNECTION STRING MENU CLEAR BUTTON METHODS =================================================================
 
 
 
