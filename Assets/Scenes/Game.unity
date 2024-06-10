@@ -10941,6 +10941,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2126874658}
+  - component: {fileID: 2126874659}
   m_Layer: 0
   m_Name: interactIcon
   m_TagString: Untagged
@@ -10965,6 +10966,18 @@ Transform:
   - {fileID: 1830629393}
   m_Father: {fileID: 663843910}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!210 &2126874659
+SortingGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2126874657}
+  m_Enabled: 1
+  m_SortingLayerID: 1178823193
+  m_SortingLayer: 1
+  m_SortingOrder: 0
+  m_SortAtRoot: 0
 --- !u!1 &2135890705
 GameObject:
   m_ObjectHideFlags: 0
