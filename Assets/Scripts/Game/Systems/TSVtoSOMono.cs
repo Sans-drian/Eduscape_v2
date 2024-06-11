@@ -45,18 +45,19 @@ public class TSVtoSOMono : MonoBehaviour
         Debug.Log("Generated Questions");
         string fullPath = baseFolderPath + questionsTSVPath + fileNameSearch;
 
-        #if UNITY_EDITOR
         // Delete existing assets (if any) before creating new ones
         string assetFolderPath = assetLocation; // Adjust the folder path as needed
-        string[] existingAssetPaths = AssetDatabase.FindAssets("t:QuestionData", new[] { assetFolderPath });
+        //string[] existingAssetPaths = AssetDatabase.FindAssets("t:QuestionData", new[] { assetFolderPath });
+        string[] existingAssetPaths = Directory.GetFiles(assetFolderPath, "*.asset");
         foreach (var existingAssetPath in existingAssetPaths)
         {
-            string assetPath = AssetDatabase.GUIDToAssetPath(existingAssetPath);
-            AssetDatabase.DeleteAsset(assetPath);
+            File.Delete(existingAssetPath);
+            //string assetPath = AssetDatabase.GUIDToAssetPath(existingAssetPath);
+            //AssetDatabase.DeleteAsset(assetPath);
         }
 
         Debug.Log($"check existing asset path: {existingAssetPaths.Length}");
-        AssetDatabase.Refresh();
+        //AssetDatabase.Refresh();
 
         if (File.Exists(fullPath)) //check if filepath exists (in turn, checking if the player's input is correct)
         {
@@ -83,23 +84,27 @@ public class TSVtoSOMono : MonoBehaviour
 
                 // Grab the question number from column 0 of the txt file
                 string questionNum = splitData[0];
+                string jsonPath = Path.Combine(Application.dataPath, "Resources/Questions", $"Question{questionNum}.json");
                 // Save this in the RESOURCES folder to load them later by script
-                AssetDatabase.CreateAsset(questionData, $"Assets/Resources/Questions/Question{questionNum}.asset");
+                //AssetDatabase.CreateAsset(questionData, $"Assets/Resources/Questions/Question{questionNum}.asset");
+                File.WriteAllText(jsonPath, JsonUtility.ToJson(questionData));
             }
 
-            string assetFolderPathw = assetLocation; // Adjust the folder path as needed
-            string[] existingAssetPaths2 = AssetDatabase.FindAssets("t:QuestionData", new[] { assetFolderPathw });
-            Debug.Log($"check existing asset path: {existingAssetPaths2.Length}");
+            //string assetFolderPathw = assetLocation; // Adjust the folder path as needed
+            //string[] existingAssetPaths2 = AssetDatabase.FindAssets("t:QuestionData", new[] { assetFolderPathw });
+            //Debug.Log($"check existing asset path: {existingAssetPaths2.Length}");
+
+            Debug.Log($"Created {allLines.Length} assets.");
 
             questionFound = true;
-            AssetDatabase.SaveAssets();
-            AssetDatabase.Refresh();
+            //AssetDatabase.SaveAssets();
+            //AssetDatabase.Refresh();
         }
         else
         {
             errMessage.Invoke();
             Debug.Log($"Question file not found: {fileNameSearch}");
         }
-        #endif
+        
     }
 }

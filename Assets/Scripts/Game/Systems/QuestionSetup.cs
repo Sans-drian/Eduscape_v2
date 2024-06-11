@@ -6,6 +6,7 @@ using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
 using UnityEngine.InputSystem;
 using System.Threading;
+using System.IO;
 
 public class QuestionSetup : MonoBehaviour
 {
@@ -214,8 +215,21 @@ public class QuestionSetup : MonoBehaviour
     {
         questions.Clear();
         Debug.Log($"question count after clear: {questions.Count}");
+
         //Get all questions from question folder
-        questions = new List<QuestionData>(Resources.LoadAll<QuestionData>("Questions"));
+        //questions = new List<QuestionData>(Resources.LoadAll<QuestionData>("Questions"));
+        
+        // Load all JSON files from the specified folder
+        string jsonFolderPath = Path.Combine(Application.dataPath, "Resources/Questions");
+        string[] jsonFiles = Directory.GetFiles(jsonFolderPath, "*.json");
+
+        foreach (var jsonFile in jsonFiles)
+        {
+            string jsonContent = File.ReadAllText(jsonFile);
+            QuestionData questionData = JsonUtility.FromJson<QuestionData>(jsonContent);
+            questions.Add(questionData);
+        }
+
         Debug.Log($"question count after loadall method: {questions.Count}");
 
         //Debug.Log($"question assets list before shuffle: {string.Join(", ", questions)}"); //Debugging: show list before shuffle
