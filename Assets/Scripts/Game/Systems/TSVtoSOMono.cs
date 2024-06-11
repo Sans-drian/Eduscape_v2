@@ -1,5 +1,7 @@
 using UnityEngine;
+#if UNITY_EDITOR
 using UnityEditor;
+#endif
 using System.IO;
 using UnityEngine.Events;
 
@@ -43,6 +45,7 @@ public class TSVtoSOMono : MonoBehaviour
         Debug.Log("Generated Questions");
         string fullPath = baseFolderPath + questionsTSVPath + fileNameSearch;
 
+        #if UNITY_EDITOR
         // Delete existing assets (if any) before creating new ones
         string assetFolderPath = assetLocation; // Adjust the folder path as needed
         string[] existingAssetPaths = AssetDatabase.FindAssets("t:QuestionData", new[] { assetFolderPath });
@@ -51,7 +54,6 @@ public class TSVtoSOMono : MonoBehaviour
             string assetPath = AssetDatabase.GUIDToAssetPath(existingAssetPath);
             AssetDatabase.DeleteAsset(assetPath);
         }
-        
 
         Debug.Log($"check existing asset path: {existingAssetPaths.Length}");
         AssetDatabase.Refresh();
@@ -98,5 +100,6 @@ public class TSVtoSOMono : MonoBehaviour
             errMessage.Invoke();
             Debug.Log($"Question file not found: {fileNameSearch}");
         }
+        #endif
     }
 }

@@ -4,7 +4,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using MySql.Data.MySqlClient;
 using UnityEngine.Events;
+#if UNITY_EDITOR
 using UnityEditor;
+#endif
 
 public class DatabaseMethods : MonoBehaviour
 {
@@ -219,6 +221,7 @@ public class DatabaseMethods : MonoBehaviour
 
     public void CreateQuestionDataFromDatabase()
     {
+        #if UNITY_EDITOR
         // Create a new list to store the retrieved data
         List<QuestionData> databaseRows = new List<QuestionData>();
         // Delete existing assets (if any) before creating new ones
@@ -233,6 +236,8 @@ public class DatabaseMethods : MonoBehaviour
         
         Debug.Log($"check existing asset path: {existingAssetPaths.Length}");
         AssetDatabase.Refresh();
+        
+        
 
         // Retrieve data from the database
         databaseRows = GetQuestionDataFromDatabase(fileName);
@@ -263,6 +268,7 @@ public class DatabaseMethods : MonoBehaviour
         {
             Debug.LogError("database is null");
         }
+        #endif
     }
 
 
