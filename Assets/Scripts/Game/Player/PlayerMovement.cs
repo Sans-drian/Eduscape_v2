@@ -9,7 +9,7 @@ public class PlayerMovement : MonoBehaviour
     private float _speed;
 
     private float _stopMove = 0; 
-    private float _startMove = 8;
+    private float _startMove = 4;
 
     private Rigidbody2D _rigidbody;
     private Vector2 _movementInput;
