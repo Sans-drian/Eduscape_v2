@@ -27,9 +27,14 @@ public class AnswerButton : MonoBehaviour
     public ChestManager chestManager;
     public QuestionSetup questionSetup;
     public CalculateAnsAcc calculateAnsAcc;
+    public Chest chest;
 
     private int correctPointAmount = 1;
 
+    void Awake()
+    {
+        chest = FindObjectOfType<Chest>();
+    }
     
     void Start()
     {
@@ -43,6 +48,8 @@ public class AnswerButton : MonoBehaviour
         {
             //Debug.LogError("questionSetup is null");
         }
+
+        
     }
 
     public void SetAnswerText(string newText) //get text from other script
@@ -81,6 +88,7 @@ public class AnswerButton : MonoBehaviour
         if (isCorrect) //if it is the correct answer
         {
             correctPressed.Invoke();
+            //chest.isAnswered();
             pointCounter.increasePoints(correctPointAmount);
             calculateAnsAcc.storeIndvAns(); //call method to calculate individual answer accuracy and store it in the dict (see CalculateAnsAcc script)
             chestManager.disableChest();

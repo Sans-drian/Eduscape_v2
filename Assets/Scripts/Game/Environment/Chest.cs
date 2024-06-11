@@ -5,13 +5,13 @@ using UnityEngine;
 public class Chest : MonoBehaviour
 {
     public bool isAnswered = false;
-    //public Animator animator;
+    public Animator animator;
 
-    public void isAnwered()
+    public void openChest()
     {
         if(!isAnswered)
         {
-            //animator.SetBool
+            animator.SetBool("isAnswered", isAnswered);
         }
     }
 
