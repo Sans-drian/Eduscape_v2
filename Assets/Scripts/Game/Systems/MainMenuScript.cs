@@ -6,7 +6,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using UnityEngine.Events;
-using Unity.VisualScripting;
+
 
 public class MainMenuScript : MonoBehaviour
 {   
@@ -18,6 +18,13 @@ public class MainMenuScript : MonoBehaviour
     public StringEvent searchQListAndRun;
     public UnityEvent setPlayerPrefsInfo;
 
+
+    private string errorTxtColor = "#FF6666"; //error texts will have this color
+    private string correctTxtColor = "#B0FF58"; //non-error texts will have this color
+    private int charLimit = 20;
+
+
+    // Input fields below to get input for play game screen
     [SerializeField]
     private TMP_InputField inputUserName;
     [SerializeField]
@@ -37,10 +44,6 @@ public class MainMenuScript : MonoBehaviour
     [SerializeField]
     private Button backButton;
     
-
-    private string errorTxtColor = "#FF6666"; //error texts will have this color
-    private string correctTxtColor = "#B0FF58"; //non-error texts will have this color
-    private int charLimit = 20;
 
 
     // Input fields below to get input to build a connection string
@@ -84,13 +87,13 @@ public class MainMenuScript : MonoBehaviour
         if (inputUserName.text.Length > charLimit) //check if the name inputted by user is over 20 characters
         {
             //throw error
-            Debug.LogWarning("input user name is over 20 characters, please try again!");
+            //Debug.LogWarning("input user name is over 20 characters, please try again!");
             debugTextPlayMenu.text = $"<color={errorTxtColor}>Player name input is over 20 characters! Please re-enter a new name.</color>";
         }
         else if (inputUserName.text == "") //check if the name inputted by user is empty
         {
             //throw error
-            Debug.LogWarning("empty input field name, please enter a name.");
+            //Debug.LogWarning("empty input field name, please enter a name.");
             debugTextPlayMenu.text = $"<color={errorTxtColor}>Player name input is empty! Please enter a name.</color>";
         }
         else //if name inputted is less than 20 characters and not empty
@@ -101,7 +104,7 @@ public class MainMenuScript : MonoBehaviour
 
     public void makeQuestionList()
     {
-        bool currentBoolDTB = DatabaseManager.Instance.isDatabaseOn;
+        bool currentBoolDTB = DatabaseManager.Instance.isDatabaseOn; //get the current bool for isDatabaseOn
         input = inputFileName.text; //place input from text field
 
         if (currentBoolDTB) //if isDatabaseOn is true (or if its on)
@@ -114,7 +117,7 @@ public class MainMenuScript : MonoBehaviour
         }
         else
         {
-            searchQListAndRun.Invoke(input);
+            searchQListAndRun.Invoke(input); //this invokes an event which takes the input as an argument and runs runGenerateQuestions from TSVtoSOMono script
         }
     }
 
@@ -156,7 +159,7 @@ public class MainMenuScript : MonoBehaviour
 
     public void IfMissingDatabase(string error) //method called when sendErrorDatabase event is invoked (from DatabaseMethods)
     {
-        Debug.LogError($"Error code from MySqlException: {error}");
+        //Debug.LogError($"Error code from MySqlException: {error}");
         debugTextPlayMenu.text = $"<color={errorTxtColor}> Error from mySQL: {error} </color>"; //change debug text to display error message
     }
 
@@ -164,12 +167,12 @@ public class MainMenuScript : MonoBehaviour
     {
         if (input == "")
         {
-            Debug.LogError("Input field is empty, please enter text.");
+            //Debug.LogError("Input field is empty, please enter text.");
             debugTextPlayMenu.text = $"<color={errorTxtColor}>Input field is empty, please enter text.</color>";
         }
         else
         {
-            Debug.LogError($"Error finding the {input}! Please check if fileName is correct!");
+            //Debug.LogError($"Error finding the {input}! Please check if fileName is correct!");
             debugTextPlayMenu.text = $"<color={errorTxtColor}>Error finding {input}! Please check if file name inputted is correct!</color>";
         }
     }
@@ -252,7 +255,7 @@ public class MainMenuScript : MonoBehaviour
 
         inputUserName.text = "";
         inputFileName.text = "";
-        Debug.Log("Input fields and other texts of Play menu is cleared!");
+        //Debug.Log("Input fields and other texts of Play menu is cleared!");
     }
 
     //Clear methods below are for the clear buttons
@@ -287,7 +290,7 @@ public class MainMenuScript : MonoBehaviour
         inputUser.text = "";
         inputPassword.text = "";
 
-        Debug.Log("Input fields and Debug Text of Connection String menu is cleared!");
+        //Debug.Log("Input fields and Debug Text of Connection String menu is cleared!");
     }
 
     //Clear methods below are for the clear buttons

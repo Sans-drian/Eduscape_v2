@@ -14,6 +14,7 @@ public class WinScreenScript : MonoBehaviour
     public GameObject countdownScreen;
     public GameObject infoMenu;
 
+
     [SerializeField]
     private TextMeshProUGUI playerNameDisplay;
     [SerializeField]
@@ -31,7 +32,7 @@ public class WinScreenScript : MonoBehaviour
     void Start()
     {
         setDisplayText();
-        saveDataToDatabase.Invoke();
+        saveDataToDatabase.Invoke(); //calls method of the same name from DatabaseMethods
     }
 
     public void toMainMenuScreen()

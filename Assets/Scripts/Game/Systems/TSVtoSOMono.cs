@@ -2,6 +2,12 @@ using UnityEngine;
 using System.IO;
 using UnityEngine.Events;
 
+/*
+
+Note: The 'Mono' in the class name is meant to differenciate between the non monobehavior version of this script in the Editor folder, which is now unused.
+
+*/
+
 public class TSVtoSOMono : MonoBehaviour
 {
     public UnityEvent errMessage;
@@ -12,7 +18,6 @@ public class TSVtoSOMono : MonoBehaviour
     private static string questionsTSVPath = "/Resources/TSVs/"; 
     private static string fileNameSearch;
 
-    // private static string assetLocation = "Assets/Resources/Questions/";
 
     private static int numberOfAnswer = 4;
 
@@ -23,7 +28,7 @@ public class TSVtoSOMono : MonoBehaviour
         questionFound = false;
     }
 
-    public void runGenerateQuestions(string input)
+    public void runGenerateQuestions(string input) //called from DatabaseMethods
     {
         fileNameSearch = input + ".txt"; 
         GenerateQuestions();
@@ -45,8 +50,8 @@ public class TSVtoSOMono : MonoBehaviour
         if (File.Exists(fullPath)) //check if filepath exists (in turn, checking if the player's input is correct)
         {
 
-            QuestionManager.Instance.questionList.Clear();
-            Debug.Log($"check existing asset path: {QuestionManager.Instance.questionList.Count}");
+            QuestionManager.Instance.questionList.Clear(); //clear the static list first to ensure questions don't get duplicated.
+            //Debug.Log($"check existing asset path: {QuestionManager.Instance.questionList.Count}");
 
 
             string[] allLines = File.ReadAllLines(fullPath);
@@ -70,6 +75,7 @@ public class TSVtoSOMono : MonoBehaviour
                     questionData.answers[i] = splitData[3 + i];
                 }
 
+                //add contents into the static list
                 QuestionManager.Instance.questionList.Add(questionData);
 
             }

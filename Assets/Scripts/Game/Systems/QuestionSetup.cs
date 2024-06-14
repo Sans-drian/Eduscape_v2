@@ -30,9 +30,11 @@ public class QuestionSetup : MonoBehaviour
     [SerializeField]
     public AnswerButton[] answerButtons;
 
+
     private Dictionary<int, bool[]> buttonStates = new Dictionary<int, bool[]>(); //dictionary to hold button states array
-    List<int> randList = new List<int>();
+    List<int> randList = new List<int>(); //random list
     bool[] retrievedArray;
+
 
     [SerializeField]
     private ChestManager chestList;
@@ -52,16 +54,16 @@ public class QuestionSetup : MonoBehaviour
 
         setRewardText();
 
-       //Get all questions ready
+        //Get all questions ready
         GetQuestionAssets();
         InitializeButtonBoolArrays();
-        Debug.Log($"original question list count from QuestionSetup script is {questions.Count}");
         questionsCount = questions.Count;
-        //Debug.Log($"questionsCount int set from original question list from QuestionSetup script is {questionsCount}");
-
 
 
         // ======================= BLOCKS OF COMMENTED OUT CODE BELOW ARE USED FOR DEBUGGING PURPOSES ===================================
+        
+        //Debug.Log($"original question list count from QuestionSetup script is {questions.Count}");
+        //Debug.Log($"questionsCount int set from original question list from QuestionSetup script is {questionsCount}");
 
         //calculateAnsAcc = FindObjectOfType<CalculateAnsAcc>();
         
@@ -87,7 +89,7 @@ public class QuestionSetup : MonoBehaviour
         */
     }
 
-    private void setRewardText()
+    private void setRewardText() //set reward text inside the question menu
     {
         bool secondsExist = checkSecondsExists();
 
@@ -214,27 +216,11 @@ public class QuestionSetup : MonoBehaviour
     public void GetQuestionAssets()
     {
         questions.Clear();
-        Debug.Log($"question count after clear: {questions.Count}");
-
-        //Get all questions from question folder
-        //questions = new List<QuestionData>(Resources.LoadAll<QuestionData>("Questions"));
+        //Debug.Log($"question count after clear: {questions.Count}");
         
         List<QuestionData> questionList = QuestionManager.Instance.questionList;
 
         questions.AddRange(questionList);
-
-        /*
-        // Load all JSON files from the specified folder
-        string jsonFolderPath = Path.Combine(Application.dataPath, "Resources/Questions");
-        string[] jsonFiles = Directory.GetFiles(jsonFolderPath, "*.json");
-
-        foreach (var jsonFile in jsonFiles)
-        {
-            string jsonContent = File.ReadAllText(jsonFile);
-            QuestionData questionData = JsonUtility.FromJson<QuestionData>(jsonContent);
-            questions.Add(questionData);
-        }
-        */
 
         Debug.Log($"question count after adding from static list: {questions.Count}");
 
@@ -257,17 +243,12 @@ public class QuestionSetup : MonoBehaviour
 
     public void SelectNewQuestion()
     {
-        //Get a random value for which question to choose
-        //int randomQuestionIndex = Random.Range(0, questions.Count);
-
-
-
         QuestionIndex = chestList.clickedObjectIndex; //grab the question from the index id of the chest
         retrievedArray = GetBooleanArray(QuestionIndex); //setting the boolean array corresponding to the currently clicked question
 
         if (QuestionIndex >= 0 && QuestionIndex < questions.Count) //checking whether index exists or not
         {
-            Debug.Log("This index exists!");
+            //Debug.Log("This index exists!");
 
             //Set the question to the question index
             currentQuestion = questions[QuestionIndex];
@@ -339,16 +320,8 @@ public class QuestionSetup : MonoBehaviour
             unshuffled.RemoveAt(random);
         }
 
-        /*
-        foreach( var x in originalList) 
-        {
-            Debug.Log($"FOR EACH LOOP PRINTING: {x}" );
-        }
-        */
-
         for (int i = 0; i < answerButtons.Length; i++)
         {
-
             int random;
 
             //If the random number is 0, this is the correct answer, MAKE SURE THIS IS ONLY USED ONCE
@@ -366,9 +339,6 @@ public class QuestionSetup : MonoBehaviour
 
             //Add this to the new list
             newList.Add(originalList[random]);
-
-            //Remove this choice from the original list (it has been used)
-            //originalList.RemoveAt(random);
         }
         
         return newList;

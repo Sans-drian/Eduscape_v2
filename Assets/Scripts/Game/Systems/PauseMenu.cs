@@ -6,8 +6,8 @@ using UnityEngine.SceneManagement;
 public class PauseMenu : MonoBehaviour
 {
     public bool isPaused;
-    public bool isHTPMenuOn;
-    public bool isConfirmExitOn;
+    public bool isHTPMenuOn; //is how to play menu on
+    public bool isConfirmExitOn; //is confirm exit menu on
     [SerializeField]
     private GameObject pauseMenuObj;
     [SerializeField]

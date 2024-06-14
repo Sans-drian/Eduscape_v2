@@ -78,6 +78,28 @@ public class FeedbackTextScript : MonoBehaviour
         feedbackTxtObj.SetActive(false);
     }
 
+    public void callDisplayIsAnswwered()
+    {
+        if (isAnsweredCoroutine != null)
+        {
+            StopCoroutine(isAnsweredCoroutine);
+        }
+
+        isAnsweredCoroutine = StartCoroutine(displayIsAnswered(4f));
+    }
+
+    private IEnumerator displayIsAnswered(float duration)
+    {
+        isAnsweredFeedbackObj.SetActive(false);
+        yield return new WaitForSeconds(.1f);
+        isAnsweredFeedbackObj.SetActive(true);
+        isAnsweredFeedbackText.text = $"<color={blueTxtColor}>This chest is already answered!</color>";
+        yield return new WaitForSeconds(duration);
+        isAnsweredFeedbackObj.SetActive(false);
+    }
+
+
+
     private void setPenaltyText()
     {
         bool secondsExist = checkSecondsExists();
@@ -112,23 +134,5 @@ public class FeedbackTextScript : MonoBehaviour
     }
 
 
-    public void callDisplayIsAnswwered()
-    {
-        if (isAnsweredCoroutine != null)
-        {
-            StopCoroutine(isAnsweredCoroutine);
-        }
 
-        isAnsweredCoroutine = StartCoroutine(displayIsAnswered(4f));
-    }
-
-    private IEnumerator displayIsAnswered(float duration)
-    {
-        isAnsweredFeedbackObj.SetActive(false);
-        yield return new WaitForSeconds(.1f);
-        isAnsweredFeedbackObj.SetActive(true);
-        isAnsweredFeedbackText.text = $"<color={blueTxtColor}>This chest is already answered!</color>";
-        yield return new WaitForSeconds(duration);
-        isAnsweredFeedbackObj.SetActive(false);
-    }
 }

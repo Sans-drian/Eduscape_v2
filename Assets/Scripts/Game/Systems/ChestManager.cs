@@ -96,7 +96,7 @@ public class ChestManager : MonoBehaviour
     public void displayQuestion()
     {
 
-        if (questionSetup != null) //debugging purposes
+        if (questionSetup != null) //check null is for debugging purposes, method can work without this
         {
             questionSetup.SelectNewQuestion();
             questionSetup.SetQuestionValues();
@@ -114,7 +114,7 @@ public class ChestManager : MonoBehaviour
         var chest = interactingChest.GetComponent<Chest>(); // place the component into the variable chest
 
         chest.isAnswered = true;
-        chest.animator.SetBool("IsAnswered", true);
+        chest.animator.SetBool("IsAnswered", true); //currently doesn't work for some reason. Please fix this, future developers
         playerMovement.GetComponent<PlayerMovement>().canMove = true;
         quizMenu.SetActive(false);
         isInteractingChest = false;

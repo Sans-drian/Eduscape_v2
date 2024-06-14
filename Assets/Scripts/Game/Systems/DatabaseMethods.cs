@@ -4,9 +4,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using MySql.Data.MySqlClient;
 using UnityEngine.Events;
-#if UNITY_EDITOR
-using UnityEditor;
-#endif
 
 public class DatabaseMethods : MonoBehaviour
 {
@@ -23,9 +20,7 @@ public class DatabaseMethods : MonoBehaviour
 
     private string fileName; //string variable fileName holds the name of the question file that will be searched in the table of the database
     
-    /*
-    ============== CONNECTION STRING BELOW, PLEASE SET THIS CORRECTLY TO PROPERLY CONNECT TO YOUR DATABASE =================================
-    */
+
     private string connectionString;
 
     private string inputServer;
@@ -60,6 +55,7 @@ public class DatabaseMethods : MonoBehaviour
     {
         this.inputPassword = inputPassword;
     }
+
 
     public void setAndRunConnectionString()
     {
@@ -155,6 +151,42 @@ public class DatabaseMethods : MonoBehaviour
 
     }
 
+    public void InsertPlayerSessionResult(string playerName, string avgAnsAcc, string elapsedTime, string questionList, string dateTime)
+    {
+        try
+        {
+            using (MySqlConnection connection = new MySqlConnection(DatabaseManager.Instance.connectionString))
+            {
+                connection.Open();
+
+                // This SQL query is to insert an entry into the table
+                string query = $"INSERT INTO playersessionresult (PLAYER_NAME, AVERAGE_ANSWER_ACCURACY, ELAPSED_TIME, QUESTION_LIST, DATE_TIME) " +
+                   "VALUES (@playerName, @avgAnsAcc, @elapsedTime, @questionList, @dateTime)";
+
+                using (MySqlCommand cmd = new MySqlCommand(query, connection))
+                {
+                    // Set parameter values
+                    cmd.Parameters.AddWithValue("@playerName", playerName);
+                    cmd.Parameters.AddWithValue("@avgAnsAcc", avgAnsAcc);
+                    cmd.Parameters.AddWithValue("@elapsedTime", elapsedTime);
+                    cmd.Parameters.AddWithValue("@questionList", questionList);
+                    cmd.Parameters.AddWithValue("@dateTime", dateTime);
+
+                    // Execute the query
+                    cmd.ExecuteNonQuery();
+                }
+                Debug.Log("Insert to database successful!");
+            }
+        }
+        catch (MySqlException e)
+        {
+            Debug.LogError($"Error fetching data from the database: {e.Message}");
+            //sendErrorDatabase.Invoke(e.Message); //send event when database is not found
+        }
+    }
+
+
+
     // Method to retrieve data from the database
     public List<QuestionData> GetQuestionDataFromDatabase(string valueToSearch)
     {
@@ -226,7 +258,7 @@ public class DatabaseMethods : MonoBehaviour
 
         if (databaseRows != null)
         {
-            // Delete existing assets (if any) before creating new ones
+            // Delete existing contents of list (if any) before creating new ones
             QuestionManager.Instance.questionList.Clear();
             Debug.Log($"check existing asset path: {QuestionManager.Instance.questionList.Count}");
 
@@ -239,6 +271,7 @@ public class DatabaseMethods : MonoBehaviour
                 questionData.category = row.category;
                 questionData.answers = row.answers;
 
+                //add questiondata contents into the questiondata static list
                 QuestionManager.Instance.questionList.Add(questionData);
             }
             
@@ -253,37 +286,5 @@ public class DatabaseMethods : MonoBehaviour
     }
 
 
-    public void InsertPlayerSessionResult(string playerName, string avgAnsAcc, string elapsedTime, string questionList, string dateTime)
-    {
-        try
-        {
-            using (MySqlConnection connection = new MySqlConnection(DatabaseManager.Instance.connectionString))
-            {
-                connection.Open();
 
-                // This SQL query is to insert an entry into the table
-                string query = $"INSERT INTO playersessionresult (PLAYER_NAME, AVERAGE_ANSWER_ACCURACY, ELAPSED_TIME, QUESTION_LIST, DATE_TIME) " +
-                   "VALUES (@playerName, @avgAnsAcc, @elapsedTime, @questionList, @dateTime)";
-
-                using (MySqlCommand cmd = new MySqlCommand(query, connection))
-                {
-                    // Set parameter values
-                    cmd.Parameters.AddWithValue("@playerName", playerName);
-                    cmd.Parameters.AddWithValue("@avgAnsAcc", avgAnsAcc);
-                    cmd.Parameters.AddWithValue("@elapsedTime", elapsedTime);
-                    cmd.Parameters.AddWithValue("@questionList", questionList);
-                    cmd.Parameters.AddWithValue("@dateTime", dateTime);
-
-                    // Execute the query
-                    cmd.ExecuteNonQuery();
-                }
-                Debug.Log("Insert to database successful!");
-            }
-        }
-        catch (MySqlException e)
-        {
-            Debug.LogError($"Error fetching data from the database: {e.Message}");
-            //sendErrorDatabase.Invoke(e.Message); //send event when database is not found
-        }
-    }
 }
