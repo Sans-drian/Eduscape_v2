@@ -114,8 +114,7 @@ public class ChestManager : MonoBehaviour
         var chest = interactingChest.GetComponent<Chest>(); // place the component into the variable chest
 
         chest.isAnswered = true;
-        //chest.animator.SetBool("IsAnswered", true); //currently doesn't work for some reason. Please fix this, future developers
-        chest.OpenChest();
+        chest.OpenChest(); //animator controller
         playerMovement.GetComponent<PlayerMovement>().canMove = true;
         quizMenu.SetActive(false);
         isInteractingChest = false;
