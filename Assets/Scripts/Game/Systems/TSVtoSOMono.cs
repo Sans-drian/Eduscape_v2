@@ -30,7 +30,7 @@ public class TSVtoSOMono : MonoBehaviour
 
     public void runGenerateQuestions(string input) //called from DatabaseMethods
     {
-        fileNameSearch = input + ".txt"; 
+        fileNameSearch = input; 
         GenerateQuestions();
 
         if (questionFound) //checks first if question is found and set, then run game.
@@ -47,14 +47,17 @@ public class TSVtoSOMono : MonoBehaviour
         Debug.Log("Generated Questions");
         string fullPath = baseFolderPath + questionsTSVPath + fileNameSearch;
 
-        if (File.Exists(fullPath)) //check if filepath exists (in turn, checking if the player's input is correct)
+        TextAsset textAsset = Resources.Load<TextAsset>("TSVs/" + fileNameSearch);
+        Debug.Log($"Loaded Asset: {textAsset}");
+
+        if (textAsset != null) //check if filepath exists (in turn, checking if the player's input is correct) File.Exists(fullPath)
         {
 
             QuestionManager.Instance.questionList.Clear(); //clear the static list first to ensure questions don't get duplicated.
             //Debug.Log($"check existing asset path: {QuestionManager.Instance.questionList.Count}");
 
 
-            string[] allLines = File.ReadAllLines(fullPath);
+            string[] allLines = textAsset.text.Split('\n'); //File.ReadAllLines(fullPath);
 
             foreach (string s in allLines)
             {
@@ -62,21 +65,28 @@ public class TSVtoSOMono : MonoBehaviour
 
                 // TSV (Table Separated Value) data format (the file will be .txt, but will work the same as a tsv file)
                 // QUESTION NUMBER, QUESTION, CATEGORY, CORRECT ANSWER, WRONG ANSWER 1, WRONG ANSWER 2, WRONG ANSWER 3 [in that order]
-
-                QuestionData questionData = ScriptableObject.CreateInstance<QuestionData>();
-                questionData.question = splitData[1]; // 2nd column from tsv file
-                questionData.category = splitData[2];
-
-                // Initialize the array of answers
-                questionData.answers = new string[4];
-
-                for (int i = 0; i < numberOfAnswer; i++)
+                if (splitData.Length >= 7)
                 {
-                    questionData.answers[i] = splitData[3 + i];
-                }
+                    QuestionData questionData = ScriptableObject.CreateInstance<QuestionData>();
+                    questionData.question = splitData[1]; // 2nd column from tsv file
+                    questionData.category = splitData[2];
 
-                //add contents into the static list
-                QuestionManager.Instance.questionList.Add(questionData);
+                    // Initialize the array of answers
+                    questionData.answers = new string[4];
+
+                    for (int i = 0; i < numberOfAnswer; i++)
+                    {
+                        questionData.answers[i] = splitData[3 + i];
+                    }
+
+                    //add contents into the static list
+                    QuestionManager.Instance.questionList.Add(questionData);
+
+                }
+                else
+                {
+                    Debug.LogError($"Invalid TSV format: {s}");
+                }
 
             }
 
