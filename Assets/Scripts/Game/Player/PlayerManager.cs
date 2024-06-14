@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class PlayerManager : MonoBehaviour
 {
+    //Script for player manager stuff
+
     [SerializeField]
     private GameObject interactIcon;
 

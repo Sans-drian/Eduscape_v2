@@ -1,7 +1,4 @@
 using UnityEngine;
-#if UNITY_EDITOR
-using UnityEditor;
-#endif
 using System.IO;
 using UnityEngine.Events;
 
@@ -12,10 +9,10 @@ public class TSVtoSOMono : MonoBehaviour
 
     // the 3 static string below will be combined to create the fullPath string in GenerateQuestions()
     private static string baseFolderPath = Application.dataPath;
-    private static string questionsTSVPath = "/Editor/TSVs/"; 
+    private static string questionsTSVPath = "/Resources/TSVs/"; 
     private static string fileNameSearch;
 
-    private static string assetLocation = "Assets/Resources/Questions/";
+    // private static string assetLocation = "Assets/Resources/Questions/";
 
     private static int numberOfAnswer = 4;
 
@@ -45,22 +42,13 @@ public class TSVtoSOMono : MonoBehaviour
         Debug.Log("Generated Questions");
         string fullPath = baseFolderPath + questionsTSVPath + fileNameSearch;
 
-        // Delete existing assets (if any) before creating new ones
-        string assetFolderPath = assetLocation; // Adjust the folder path as needed
-        //string[] existingAssetPaths = AssetDatabase.FindAssets("t:QuestionData", new[] { assetFolderPath });
-        string[] existingAssetPaths = Directory.GetFiles(assetFolderPath, "*.asset");
-        foreach (var existingAssetPath in existingAssetPaths)
-        {
-            File.Delete(existingAssetPath);
-            //string assetPath = AssetDatabase.GUIDToAssetPath(existingAssetPath);
-            //AssetDatabase.DeleteAsset(assetPath);
-        }
-
-        Debug.Log($"check existing asset path: {existingAssetPaths.Length}");
-        //AssetDatabase.Refresh();
-
         if (File.Exists(fullPath)) //check if filepath exists (in turn, checking if the player's input is correct)
         {
+
+            QuestionManager.Instance.questionList.Clear();
+            Debug.Log($"check existing asset path: {QuestionManager.Instance.questionList.Count}");
+
+
             string[] allLines = File.ReadAllLines(fullPath);
 
             foreach (string s in allLines)
@@ -82,23 +70,14 @@ public class TSVtoSOMono : MonoBehaviour
                     questionData.answers[i] = splitData[3 + i];
                 }
 
-                // Grab the question number from column 0 of the txt file
-                string questionNum = splitData[0];
-                string jsonPath = Path.Combine(Application.dataPath, "Resources/Questions", $"Question{questionNum}.json");
-                // Save this in the RESOURCES folder to load them later by script
-                //AssetDatabase.CreateAsset(questionData, $"Assets/Resources/Questions/Question{questionNum}.asset");
-                File.WriteAllText(jsonPath, JsonUtility.ToJson(questionData));
+                QuestionManager.Instance.questionList.Add(questionData);
+
             }
 
-            //string assetFolderPathw = assetLocation; // Adjust the folder path as needed
-            //string[] existingAssetPaths2 = AssetDatabase.FindAssets("t:QuestionData", new[] { assetFolderPathw });
-            //Debug.Log($"check existing asset path: {existingAssetPaths2.Length}");
 
             Debug.Log($"Created {allLines.Length} assets.");
 
             questionFound = true;
-            //AssetDatabase.SaveAssets();
-            //AssetDatabase.Refresh();
         }
         else
         {

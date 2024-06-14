@@ -1,1 +1,0 @@
-{"questionNum":"","question":"A server administrator needs to deploy five VMs. all of which must have the same type of configuration. Which of the following would be the MOST efficient way to perform this task?","category":"Comp. Sci.","answers":["Use a VM template.","Snapshot a VM.","Use a physical host.","Perform a P2V conversion."]}

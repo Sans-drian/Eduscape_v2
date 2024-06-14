@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class DatabaseManager : MonoBehaviour
 {
+    //this acts as a static class/script which can hold the database connection string and persist its data throughout the game's runtime.
+
     public static DatabaseManager Instance { get; private set;}
     public string connectionString = "Server=localhost;Database=eduscapeqdatabasetest;User=root;Password=;";
     public bool isDatabaseOn = true; //This boolean ensures that the database methods do not run if there is a problem connecting to the database.

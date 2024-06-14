@@ -21,9 +21,6 @@ public class DatabaseMethods : MonoBehaviour
     public UnityEvent sendMsgTrue;
     public UnityEvent sendMsgFalse;
 
-
-    //private static string fileLocation = "/Editor/TSVs";
-    private static string assetLocation = "Assets/Resources/Questions/";
     private string fileName; //string variable fileName holds the name of the question file that will be searched in the table of the database
     
     /*
@@ -182,7 +179,7 @@ public class DatabaseMethods : MonoBehaviour
                         {
                             // Create a new QuestionData instance for each row
                             QuestionData rowData = ScriptableObject.CreateInstance<QuestionData>();
-                            rowData.questionNum = reader.GetString("QUESTIONNUMBER");
+                            //rowData.questionNum = reader.GetString("QUESTIONNUMBER");
                             rowData.question = reader.GetString("QUESTION");
                             rowData.category = reader.GetString("CATEGORY");
 
@@ -221,29 +218,19 @@ public class DatabaseMethods : MonoBehaviour
 
     public void CreateQuestionDataFromDatabase()
     {
-        #if UNITY_EDITOR
         // Create a new list to store the retrieved data
         List<QuestionData> databaseRows = new List<QuestionData>();
-        // Delete existing assets (if any) before creating new ones
-        string assetFolderPath = assetLocation; // Adjust the folder path as needed
-        string[] existingAssetPaths = AssetDatabase.FindAssets("t:QuestionData", new[] { assetFolderPath });
-        foreach (var existingAssetPath in existingAssetPaths)
-        {
-            string assetPath = AssetDatabase.GUIDToAssetPath(existingAssetPath);
-            AssetDatabase.DeleteAsset(assetPath);
-        }
-        
-        
-        Debug.Log($"check existing asset path: {existingAssetPaths.Length}");
-        AssetDatabase.Refresh();
-        
-        
 
         // Retrieve data from the database
         databaseRows = GetQuestionDataFromDatabase(fileName);
 
         if (databaseRows != null)
         {
+            // Delete existing assets (if any) before creating new ones
+            QuestionManager.Instance.questionList.Clear();
+            Debug.Log($"check existing asset path: {QuestionManager.Instance.questionList.Count}");
+
+
             foreach (var row in databaseRows)
             {
                 // Create a new QuestionData instance
@@ -252,23 +239,17 @@ public class DatabaseMethods : MonoBehaviour
                 questionData.category = row.category;
                 questionData.answers = row.answers;
 
-                // Save the instance as an asset
-                string newAssetPath = $"{assetFolderPath}Question{row.questionNum}.asset";
-                AssetDatabase.CreateAsset(questionData, newAssetPath);
+                QuestionManager.Instance.questionList.Add(questionData);
             }
             
             Debug.Log("Questions created from database data! (Ran from DatabaseMethods.cs)");
             runGame.Invoke(); //send event to start game
             
-            // Refresh the AssetDatabase
-            AssetDatabase.SaveAssets();
-            AssetDatabase.Refresh();
         }
         else
         {
             Debug.LogError("database is null");
-        }
-        #endif
+        }  
     }
 
 

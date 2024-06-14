@@ -5,6 +5,8 @@ using UnityEngine;
 
 public class ExitDoor : MonoBehaviour
 {
+    //script for Exit Door
+
     public bool isInteracting;
     public GameObject exitMenu;
     public PlayerMovement playerMovement;

@@ -219,6 +219,11 @@ public class QuestionSetup : MonoBehaviour
         //Get all questions from question folder
         //questions = new List<QuestionData>(Resources.LoadAll<QuestionData>("Questions"));
         
+        List<QuestionData> questionList = QuestionManager.Instance.questionList;
+
+        questions.AddRange(questionList);
+
+        /*
         // Load all JSON files from the specified folder
         string jsonFolderPath = Path.Combine(Application.dataPath, "Resources/Questions");
         string[] jsonFiles = Directory.GetFiles(jsonFolderPath, "*.json");
@@ -229,8 +234,9 @@ public class QuestionSetup : MonoBehaviour
             QuestionData questionData = JsonUtility.FromJson<QuestionData>(jsonContent);
             questions.Add(questionData);
         }
+        */
 
-        Debug.Log($"question count after loadall method: {questions.Count}");
+        Debug.Log($"question count after adding from static list: {questions.Count}");
 
         //Debug.Log($"question assets list before shuffle: {string.Join(", ", questions)}"); //Debugging: show list before shuffle
         ShuffleList(questions);

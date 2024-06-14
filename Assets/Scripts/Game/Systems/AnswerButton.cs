@@ -26,7 +26,7 @@ public class AnswerButton : MonoBehaviour
 
     public ChestManager chestManager;
     public QuestionSetup questionSetup;
-    public CalculateAnsAcc calculateAnsAcc;
+    public CalculateAnsAcc calculateAnsAcc; //calculate answer accuracy
     public Chest chest;
 
     private int correctPointAmount = 1;
@@ -38,18 +38,16 @@ public class AnswerButton : MonoBehaviour
     
     void Start()
     {
-        //questionSetup = FindObjectOfType<QuestionSetup>();
-
+        /* debugging purposes
         if (questionSetup != null)
         {
-            //Debug.Log("questionSetup is not null");
+            Debug.Log("questionSetup is not null");
         }
         else
         {
-            //Debug.LogError("questionSetup is null");
+            Debug.LogError("questionSetup is null");
         }
-
-        
+        */
     }
 
     public void SetAnswerText(string newText) //get text from other script
@@ -74,14 +72,14 @@ public class AnswerButton : MonoBehaviour
 
     public void setButtonID()
     {
-        Debug.Log("setButtonID() called");
+        //Debug.Log("setButtonID() called");
         questionSetup.buttonID = buttonID;
     }
 
     public void OnClick() //click function
     {
         setButtonID();
-        calculateAnsAcc.setCurrentIntArr();
+        calculateAnsAcc.setCurrentIntArray();  
         questionSetup.updateBoolAddCount();
 
         
@@ -95,7 +93,7 @@ public class AnswerButton : MonoBehaviour
             Debug.Log("Correct Answer");
 
 
-            //debugging purposes
+            /*debugging purposes
             foreach (var kvp in calculateAnsAcc.qClickedCount)
             {
                 int arrayNameTest = kvp.Key;
@@ -103,6 +101,7 @@ public class AnswerButton : MonoBehaviour
 
                 Debug.Log($"Array '{arrayNameTest}': {string.Join(", ", arrayTest)}");
             }
+            */
         }
         else //if it is the wrong answer
         {

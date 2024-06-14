@@ -21,7 +21,7 @@ public class PointCounter : MonoBehaviour
     ===========================================================================
     */
 
-    public UnityEvent setAvgAnsAcc;
+    public UnityEvent setAvgAnsAcc; //set average answer accuracy
     public UnityEvent setElapsedTime;
     public UnityEvent setLocalTime;
     public UnityEvent saveGameResults;
@@ -30,7 +30,9 @@ public class PointCounter : MonoBehaviour
 
     public TMP_Text pointText;
     public int currentKeys = 0;
-    public int winCondition;
+
+    [SerializeField]
+    private int winCondition;
 
     public GameObject escapeButton;
     public GameObject escapeErrorText;
@@ -45,6 +47,8 @@ public class PointCounter : MonoBehaviour
     void Start()
     {
         pointText.text = currentKeys.ToString() + $"/{questionSetup.questionsCount}";
+        winCondition = questionSetup.questionsCount; //the win condition should be set the same amount as how many questions there are
+        Debug.Log($"The win condition is set to {winCondition}");
     }
 
     void Update()
@@ -55,12 +59,6 @@ public class PointCounter : MonoBehaviour
         }
     }
 
-    public void increasePoints(int v)
-    {
-        currentKeys += v;
-        pointText.text = currentKeys.ToString() + $"/{questionSetup.questionsCount}";
-    }
-
     //set the color of the escape button and remove 'not enough points' text
     public void updateEscapeUI()
     {
@@ -68,7 +66,15 @@ public class PointCounter : MonoBehaviour
         escapeErrorText.SetActive(false);
     }
 
-    //win button script; if the point amount is at the win condition, change scene to win.
+
+    public void increasePoints(int v)
+    {
+        currentKeys += v;
+        pointText.text = currentKeys.ToString() + $"/{questionSetup.questionsCount}";
+    }
+
+
+    //win button script; when pressed, if the point amount is at the win condition, change scene to win.
     public void winButton()
     {
         if (currentKeys >= winCondition)

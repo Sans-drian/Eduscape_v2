@@ -5,7 +5,6 @@ using UnityEngine.InputSystem;
 
 public class PlayerMovement : MonoBehaviour
 {
-    //[SerializeField]
     private float _speed;
 
     private float _stopMove = 0; 
@@ -28,6 +27,8 @@ public class PlayerMovement : MonoBehaviour
         _rigidbody = GetComponent<Rigidbody2D>();
         canMove = true;
     }
+
+
 
     private void FixedUpdate() 
     {
@@ -54,7 +55,6 @@ public class PlayerMovement : MonoBehaviour
     //getting input
     private void OnMove(InputValue inputValue)
     {
-
         _movementInput = inputValue.Get<Vector2>();
         
     }
