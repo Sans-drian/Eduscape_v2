@@ -5,6 +5,7 @@ using UnityEngine.InputSystem;
 
 public class PlayerMovement : MonoBehaviour
 {
+    [SerializeField]
     private float _speed;
 
     private float _stopMove = 0; 
@@ -17,6 +18,10 @@ public class PlayerMovement : MonoBehaviour
 
     public bool canMove;
     public static PlayerMovement Instance;
+
+    public Animator animator;
+    public GameObject playerSprite;
+    bool facingLeft = true;
 
     private void Awake()
     {
@@ -32,7 +37,6 @@ public class PlayerMovement : MonoBehaviour
 
     private void FixedUpdate() 
     {
-
         _smoothedMovementInput = Vector2.SmoothDamp(
             _smoothedMovementInput,
             _movementInput,
@@ -40,6 +44,12 @@ public class PlayerMovement : MonoBehaviour
             0.1f
         );
         _rigidbody.velocity = _smoothedMovementInput * _speed; //move x axis and y axis with set speeds
+        
+
+        float playerSpeed = setSpeedFloat(_rigidbody.velocity.magnitude);
+        animator.SetFloat("Speed", playerSpeed); //change animation to running depending on speed 
+
+        //Debug.Log($"Player speed: {_rigidbody.velocity.x}");
 
         if(!canMove)
         {
@@ -50,6 +60,38 @@ public class PlayerMovement : MonoBehaviour
             _speed = _startMove;
         }
 
+
+        if (_rigidbody.velocity.x < 0 && !facingLeft) //if walking to the left but facing right
+        {
+            Flip();
+        }
+        if (_rigidbody.velocity.x > 0 && facingLeft) //if walking to the right but is facing left
+        {
+            Flip();
+        }
+
+    }
+
+    private float setSpeedFloat(float speed) 
+    {
+        if (speed > 2)
+        {
+            return 4;
+        }
+        else
+        {
+            return 0;
+        }
+        
+    }
+
+    private void Flip() //method to flip character
+    {
+        Vector3 currentScale = playerSprite.transform.localScale;
+        currentScale.x *= -1;
+        playerSprite.transform.localScale = currentScale;
+
+        facingLeft = !facingLeft;
     }
 
     //getting input

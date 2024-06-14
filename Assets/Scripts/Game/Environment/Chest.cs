@@ -9,12 +9,9 @@ public class Chest : MonoBehaviour
     public bool isAnswered = false;
     public Animator animator;
 
-    public void openChest()
+    public void OpenChest()
     {
-        if(!isAnswered)
-        {
-            animator.SetBool("isAnswered", isAnswered);
-        }
+        animator.SetBool("isAnswered", isAnswered);
     }
 
 }
