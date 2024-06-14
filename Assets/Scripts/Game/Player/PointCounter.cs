@@ -39,6 +39,9 @@ public class PointCounter : MonoBehaviour
     [SerializeField]
     private QuestionSetup questionSetup;
 
+    [SerializeField]
+    private ExitDoor exitDoor;
+
     void Awake()
     {
         instance = this;
@@ -56,6 +59,7 @@ public class PointCounter : MonoBehaviour
         if (currentKeys >= winCondition)
         {
             updateEscapeUI();
+            changeExitDoorSprite();
         }
     }
 
@@ -64,6 +68,11 @@ public class PointCounter : MonoBehaviour
     {
         escapeButton.GetComponent<Image>().color = Color.white;
         escapeErrorText.SetActive(false);
+    }
+
+    private void changeExitDoorSprite()
+    {
+        exitDoor.changeExitDoorSprite();
     }
 
 

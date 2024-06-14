@@ -11,6 +11,8 @@ public class ExitDoor : MonoBehaviour
     public GameObject exitMenu;
     public PlayerMovement playerMovement;
     public PauseMenu pauseMenu;
+
+    public Animator animator;
     
 
     public void openExitMenu()
@@ -36,5 +38,10 @@ public class ExitDoor : MonoBehaviour
         {
             Debug.Log("Is in pause menu. Not able to interact");
         }
+    }
+
+    public void changeExitDoorSprite()
+    {
+        animator.SetBool("AllKeysCollected", true);
     }
 }
