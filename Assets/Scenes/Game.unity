@@ -46080,14 +46080,14 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: '(WASD) To Move
+  m_text: '(WASD/Arrow Keys) To Move
 
-    E to Interact
+    (E) to Interact
 
 
-    Your goal is to escape through
-    the Exit Door before the time runs out. To open the Exit Door, you must find
-    all keys from chests scattered across the map.
+    Your goal is to escape
+    through the Exit Door before the time runs out. To open the Exit Door, you must
+    find all keys from chests scattered across the map.
 
     Good Luck!'
   m_isRightToLeft: 0
