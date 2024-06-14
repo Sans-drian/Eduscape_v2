@@ -56,7 +56,7 @@ public class MainMenuScript : MonoBehaviour
     [SerializeField]
     private TMP_InputField inputPassword;
     [SerializeField]
-    private TextMeshProUGUI debugTextCSMenu;
+    private TextMeshProUGUI debugTextCSMenu; //debug text connection string (CS) menu
 
     public StringEvent setInputServer;
     public StringEvent setInputDatabase;
@@ -79,7 +79,8 @@ public class MainMenuScript : MonoBehaviour
         debugTextPlayMenu.text = ""; 
         questionSetFromText.text = "";
 
-        debugTextCSMenu.text = "";
+        //the debug text for the connection string menu will be an exception because it will instead show instructions by default.
+        debugTextCSMenu.text = "You must enter a server name in order to play the game. If you do not have a server to input, then input any character.";
     }
 
     public void GetInputAndSetQ()
@@ -129,12 +130,19 @@ public class MainMenuScript : MonoBehaviour
 
     public void testDatabaseConnection()
     {
-        setInputServer.Invoke(inputServer.text);
-        setInputDatabase.Invoke(inputDatabase.text);
-        setInputUser.Invoke(inputUser.text);
-        setInputPassword.Invoke(inputPassword.text);
-        
-        runConnectionTest.Invoke();
+        if (inputServer.text == "")
+        {
+            debugTextCSMenu.text = $"<color={errorTxtColor}>Server input is empty! Please enter a server name.</color>";
+        }
+        else 
+        {
+            setInputServer.Invoke(inputServer.text);
+            setInputDatabase.Invoke(inputDatabase.text);
+            setInputUser.Invoke(inputUser.text);
+            setInputPassword.Invoke(inputPassword.text);
+            
+            runConnectionTest.Invoke();
+        }
     }
 
     public void displayConnectedMsg()
@@ -284,7 +292,9 @@ public class MainMenuScript : MonoBehaviour
 
     public void ClearTextsCSMenu()
     {
-        debugTextCSMenu.text = "";
+         //the debug text for the connection string menu will be an exception because it will instead show instructions by default.
+        debugTextCSMenu.text = "You must enter a server name in order to play the game. If you do not have a server to input, then input any character.";
+
         inputServer.text = "";
         inputDatabase.text = "";
         inputUser.text = "";
